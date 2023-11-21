@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/map',
+        initialRoute: '/login',
         routes: {
-          '/login' : (BuildContext context) => const LoginPage(),
+          '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
         },
         theme: ThemeData.light(useMaterial3: true),
