@@ -1,41 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../signIn/signIn.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+  final _signIn = SignIn();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Icon(Icons.coffee, size: 40,), Text("Log-in", style: TextStyle(fontSize: 35),)],
+        ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 16.0),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              obscureText: true,
-            ),
-            SizedBox(height: 24.0),
             ElevatedButton(
-              child: Text('Login'),
-              onPressed: () {
-                // 여기에 로그인 로직을 추가하세요.
+              onPressed: () async {
+                try {
+                  // signInWithGoogle 함수를 호출하여 로그인 시도
+                  UserCredential userCredential =
+                  await _signIn.signInWithGoogle();
+
+                  // 로그인에 성공했는지 확인
+                  if (userCredential.user != null) {
+                    print('로그인 성공: ${userCredential.user!.email}');
+                    _signIn.addUserCollection();
+                  }
+                } on FirebaseAuthException catch (e) {
+                  // Firebase 인증 에러 처리
+                  print('로그인 실패: ${e.message}');
+                } catch (e) {
+                  // 기타 에러 처리
+                  print('에러 발생: $e');
+                }
               },
+              child: Text('Google', style: TextStyle(color: Colors.white),),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(const Color(0xFF5DB075)),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  // signInWithGoogle 함수를 호출하여 로그인 시도
+                  UserCredential userCredential =
+                  await _signIn.signInAnonymously();
+                  _signIn.addUserCollection();
+
+                } on FirebaseAuthException catch (e) {
+                  print("error");
+                }
+              },
+              child: Text('Guest', style: TextStyle(color: Colors.black),),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+              ),
             ),
           ],
         ),
