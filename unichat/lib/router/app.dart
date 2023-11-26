@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:unichat/page/login.dart';
 import 'package:unichat/page/map.dart';
+import 'package:unichat/page/profile.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
+          '/profile' : (BuildContext context) => ProfilePage(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );

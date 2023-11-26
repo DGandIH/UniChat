@@ -33,6 +33,8 @@ class LoginPage extends StatelessWidget {
                   if (userCredential.user != null) {
                     print('로그인 성공: ${userCredential.user!.email}');
                     _signIn.addUserCollection();
+
+                    Navigator.pushNamed(context, "/profile");
                   }
                 } on FirebaseAuthException catch (e) {
                   // Firebase 인증 에러 처리
