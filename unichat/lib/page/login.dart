@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  // signInWithGoogle 함수를 호출하여 로그인 시도
+
                   UserCredential userCredential =
                   await _signIn.signInWithGoogle();
 
