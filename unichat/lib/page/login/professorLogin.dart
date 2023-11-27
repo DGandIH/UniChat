@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../signIn/signIn.dart';
+import '../../signIn/signIn.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key}) : super(key: key);
+class ProfessorLoginPage extends StatelessWidget {
+  ProfessorLoginPage({Key? key}) : super(key: key);
   final _signIn = SignIn();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Icon(Icons.coffee, size: 40,), Text("Log-in", style: TextStyle(fontSize: 35),)],
+        title: const Text(
+          "교수님 로그인",
+          style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(
@@ -25,7 +25,6 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 try {
-
                   UserCredential userCredential =
                   await _signIn.signInWithGoogle();
 
@@ -44,9 +43,13 @@ class LoginPage extends StatelessWidget {
                   print('에러 발생: $e');
                 }
               },
-              child: Text('Google', style: TextStyle(color: Colors.white),),
+              child: Text(
+                'Google',
+                style: TextStyle(color: Colors.white),
+              ),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(const Color(0xFF5DB075)),
+                backgroundColor:
+                MaterialStateProperty.all(const Color(0xFF5DB075)),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -57,12 +60,14 @@ class LoginPage extends StatelessWidget {
                   UserCredential userCredential =
                   await _signIn.signInAnonymously();
                   _signIn.addUserCollection();
-
                 } on FirebaseAuthException catch (e) {
                   print("error");
                 }
               },
-              child: Text('Guest', style: TextStyle(color: Colors.black),),
+              child: Text(
+                'Guest',
+                style: TextStyle(color: Colors.black),
+              ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
               ),
