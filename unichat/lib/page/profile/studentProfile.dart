@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../signIn/signIn.dart';
+import '../../signIn/signIn.dart';
 
-class ProfilePage extends StatelessWidget {
+class StudentProfile extends StatelessWidget {
   final _signIn = SignIn();
 
-  ProfilePage({super.key});
+  StudentProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +14,28 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF5DB075),
+        leading: TextButton(
+            onPressed: () {
+              _signIn.signOUt();
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            )),
         actions: [
           TextButton(
               onPressed: () {
                 _signIn.signOUt();
                 Navigator.pop(context);
               },
-              child: const Text(
-                "로그아웃",
-                style: TextStyle(color: Colors.white, fontSize: 15),
+              child: const Icon(
+                Icons.edit,
+                color: Colors.white,
               ))
         ],
         title: const Text(
-          "프로필",
+          "학생 프로필",
           style: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -72,18 +81,24 @@ class ProfilePage extends StatelessWidget {
                     "이름",
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.1,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w800),
                   ),
                   Text("학번",
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontWeight: FontWeight.w300)),
-                  Row(
-                    children: [Icon(Icons.circle), Text('전공')],
+                          fontWeight: FontWeight.w500)),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Icon(Icons.circle),
+                        Text('전공'),
+                        Divider(),
+                        Icon(Icons.circle),
+                        Text("MBTI")
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [Icon(Icons.circle), Text("MBTI")],
-                  )
                 ],
               ),
             ),
