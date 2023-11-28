@@ -1,44 +1,32 @@
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unichat/page/profile/professorProfile.dart';
 
-import '../../signIn/signIn.dart';
-
-class StudentProfile extends StatelessWidget {
-  final _signIn = SignIn();
-
-  StudentProfile({super.key});
+class ProfessorProfileWithStudent extends StatelessWidget {
+  const ProfessorProfileWithStudent({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF5DB075),
-        leading: TextButton(
-            onPressed: () {
-              _signIn.signOUt();
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            )),
         actions: [
           TextButton(
               onPressed: () {
-                _signIn.signOUt();
-                Navigator.pop(context);
+                Navigator.pushNamed(context, "/reservation/student");
               },
-              child: IconButton(
-                icon: Icon(Icons.edit,),
-                color: Colors.white, onPressed: () {
-                  Navigator.pushNamed(context, "/test");
-              },
-
+              child: const Icon(
+                Icons.edit,
+                color: Colors.white,
               ))
         ],
         title: const Text(
-          "학생 프로필",
+          "교수님 프로필",
           style: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -60,7 +48,7 @@ class StudentProfile extends StatelessWidget {
                             child: Container(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 height:
-                                    MediaQuery.of(context).size.width * 0.45,
+                                MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
                                 child: const Image(
                                   image: AssetImage("assets/logo.png"),
@@ -86,7 +74,7 @@ class StudentProfile extends StatelessWidget {
                         fontSize: MediaQuery.of(context).size.width * 0.1,
                         fontWeight: FontWeight.w800),
                   ),
-                  Text("학번",
+                  Text("email",
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                           fontWeight: FontWeight.w500)),
@@ -99,20 +87,31 @@ class StudentProfile extends StatelessWidget {
                           children: [
                             const Icon(Icons.circle, size: 20,),
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                            const Text("소속 학부", style: TextStyle(fontSize: 20),),
+                            const Spacer(),
+                            const Text("소속 학부", style: TextStyle(fontSize: 20),),
+                          ],
+                        ),
+                        const Divider(),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                        Row(
+                          children: [
+                            const Icon(Icons.circle, size: 20,),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
                             const Text("전공", style: TextStyle(fontSize: 20),),
                             const Spacer(),
                             const Text("전공", style: TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                         Row(
                           children: [
                             const Icon(Icons.circle, size: 20,),
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
-                            const Text("MBTI", style: TextStyle(fontSize: 20),),
+                            const Text("관심 분야", style: TextStyle(fontSize: 20),),
                             const Spacer(),
-                            const Text("MBTI", style: TextStyle(fontSize: 20),),
+                            const Text("관심 분야", style: TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
@@ -127,4 +126,5 @@ class StudentProfile extends StatelessWidget {
       ),
     );
   }
+
 }

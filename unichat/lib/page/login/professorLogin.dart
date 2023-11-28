@@ -33,7 +33,7 @@ class ProfessorLoginPage extends StatelessWidget {
                     print('로그인 성공: ${userCredential.user!.email}');
                     _signIn.addUserCollection();
 
-                    Navigator.pushNamed(context, "/profile");
+                    Navigator.pushNamed(context, "/professor/profile");
                   }
                 } on FirebaseAuthException catch (e) {
                   // Firebase 인증 에러 처리
