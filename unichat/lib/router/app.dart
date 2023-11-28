@@ -13,8 +13,15 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:unichat/page/login.dart';
+import 'package:unichat/page/contact/professorProfileWithStudent.dart';
+import 'package:unichat/page/list/professorList.dart';
+import 'package:unichat/page/login/login.dart';
+import 'package:unichat/page/login/professorLogin.dart';
+import 'package:unichat/page/login/studentLogin.dart';
 import 'package:unichat/page/map.dart';
+import 'package:unichat/page/profile/professorProfile.dart';
+import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/page/reserve/studentReservation.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -24,10 +31,17 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/map',
+        initialRoute: '/login',
         routes: {
-          '/login' : (BuildContext context) => const LoginPage(),
+          '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
+          '/professor/profile' : (BuildContext context) => ProfessorProfile(),
+          '/professor/login' : (BuildContext context) => ProfessorLoginPage(),
+          '/student/login' : (BuildContext context) => StudentLoginPage(),
+          '/student/profile' : (BuildContext context) => StudentProfile(),
+          '/test' : (BuildContext context) => const ProfessorList(),
+          '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
+          '/reservation/student' : (BuildContext context) => const StudentReservation(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );

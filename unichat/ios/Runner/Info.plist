@@ -51,5 +51,24 @@
     <string>이 앱은 백그라운드에서 위치 추적을 사용하여 기능을 제공합니다.</string>
     <key>io.flutter.embedded_views_preview</key>
     	<true/>
+    <key>UIStatusBarHidden</key>
+        <true/>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+        <false/>
+    <key>CFBundleURLTypes</key>
+    <array>
+            <dict>
+                <key>CFBundleURLSchemes</key>
+                <array>
+        <string>com.googleusercontent.apps.1080335586737-159fd65chht1ei7limchgj5td229na5q</string>
+                </array>
+            </dict>
+    </array>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+            <string>google</string>
+            <string>com.googleusercontent.apps</string>
+    </array>
 </dict>
 </plist>
