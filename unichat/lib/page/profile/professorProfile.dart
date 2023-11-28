@@ -14,19 +14,28 @@ class ProfessorProfile extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF5DB075),
+        leading: TextButton(
+            onPressed: () {
+              _signIn.signOUt();
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            )),
         actions: [
           TextButton(
               onPressed: () {
                 _signIn.signOUt();
                 Navigator.pop(context);
               },
-              child: const Text(
-                "로그아웃",
-                style: TextStyle(color: Colors.white, fontSize: 15),
+              child: const Icon(
+                Icons.edit,
+                color: Colors.white,
               ))
         ],
         title: const Text(
-          "프로필",
+          "교수님 프로필",
           style: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -72,18 +81,52 @@ class ProfessorProfile extends StatelessWidget {
                     "이름",
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.1,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w800),
                   ),
-                  Text("학번",
+                  Text("email",
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.05,
-                          fontWeight: FontWeight.w300)),
-                  Row(
-                    children: [Icon(Icons.circle), Text('전공')],
+                          fontWeight: FontWeight.w500)),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.025,),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.08, 0, MediaQuery.of(context).size.width * 0.08, 0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.circle, size: 20,),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                            const Text("소속 학부", style: TextStyle(fontSize: 20),),
+                            const Spacer(),
+                            const Text("소속 학부", style: TextStyle(fontSize: 20),),
+                          ],
+                        ),
+                        const Divider(),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                        Row(
+                          children: [
+                            const Icon(Icons.circle, size: 20,),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                            const Text("전공", style: TextStyle(fontSize: 20),),
+                            const Spacer(),
+                            const Text("전공", style: TextStyle(fontSize: 20),),
+                          ],
+                        ),
+                        const Divider(),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                        Row(
+                          children: [
+                            const Icon(Icons.circle, size: 20,),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                            const Text("관심 분야", style: TextStyle(fontSize: 20),),
+                            const Spacer(),
+                            const Text("관심 분야", style: TextStyle(fontSize: 20),),
+                          ],
+                        ),
+                        const Divider(),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [Icon(Icons.circle), Text("MBTI")],
-                  )
                 ],
               ),
             ),
