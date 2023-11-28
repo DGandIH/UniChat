@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1080335586737',
     projectId: 'unichat-d6dd5',
     authDomain: 'unichat-d6dd5.firebaseapp.com',
+    databaseURL: 'https://unichat-d6dd5-default-rtdb.firebaseio.com',
     storageBucket: 'unichat-d6dd5.appspot.com',
     measurementId: 'G-T55S4W7PNH',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:1080335586737:android:3ae30feedc48a768285990',
     messagingSenderId: '1080335586737',
     projectId: 'unichat-d6dd5',
+    databaseURL: 'https://unichat-d6dd5-default-rtdb.firebaseio.com',
     storageBucket: 'unichat-d6dd5.appspot.com',
   );
 
@@ -66,7 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:1080335586737:ios:9bfbd5a3e1e51096285990',
     messagingSenderId: '1080335586737',
     projectId: 'unichat-d6dd5',
+    databaseURL: 'https://unichat-d6dd5-default-rtdb.firebaseio.com',
     storageBucket: 'unichat-d6dd5.appspot.com',
+    iosClientId: '1080335586737-159fd65chht1ei7limchgj5td229na5q.apps.googleusercontent.com',
     iosBundleId: 'com.example.unichat',
   );
 
@@ -75,7 +79,9 @@ class DefaultFirebaseOptions {
     appId: '1:1080335586737:ios:0801f707a213b69b285990',
     messagingSenderId: '1080335586737',
     projectId: 'unichat-d6dd5',
+    databaseURL: 'https://unichat-d6dd5-default-rtdb.firebaseio.com',
     storageBucket: 'unichat-d6dd5.appspot.com',
+    iosClientId: '1080335586737-g7i83uva78qh2mn6e7j3apgb2clog6gk.apps.googleusercontent.com',
     iosBundleId: 'com.example.unichat.RunnerTests',
   );
 }
