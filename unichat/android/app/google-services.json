@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1080335586737",
+    "firebase_url": "https://unichat-d6dd5-default-rtdb.firebaseio.com",
+    "project_id": "unichat-d6dd5",
+    "storage_bucket": "unichat-d6dd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080335586737:android:3ae30feedc48a768285990",
+        "android_client_info": {
+          "package_name": "com.example.unichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080335586737-19ss03jnqcgj6bi7hufmi467ppddd9ti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeA6hrsuqVsRlDwgcqqNW_yrCNylecAB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080335586737-19ss03jnqcgj6bi7hufmi467ppddd9ti.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1080335586737-159fd65chht1ei7limchgj5td229na5q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.unichat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

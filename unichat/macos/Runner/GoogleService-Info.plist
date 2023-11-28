@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1080335586737-g7i83uva78qh2mn6e7j3apgb2clog6gk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1080335586737-g7i83uva78qh2mn6e7j3apgb2clog6gk</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCBa2Xmmcnmt_aGU6ugs8K_7rrGCbUuGEc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1080335586737</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.unichat.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>unichat-d6dd5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>unichat-d6dd5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1080335586737:ios:0801f707a213b69b285990</string>
+	<key>DATABASE_URL</key>
+	<string>https://unichat-d6dd5-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
