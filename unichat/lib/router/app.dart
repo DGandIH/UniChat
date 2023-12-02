@@ -22,6 +22,7 @@ import 'package:unichat/page/map.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/page/reserve/studentReservation.dart';
+import 'package:unichat/signIn/studentSignUp.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/login',
+        initialRoute: '/student/signUp',
         routes: {
           '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           '/test' : (BuildContext context) => const ProfessorList(),
           '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
           '/reservation/student' : (BuildContext context) => const StudentReservation(),
+          '/student/signUp' : (BuildContext context) => StudentSignUp(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );
