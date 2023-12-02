@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:unichat/user/student.dart';
 
-import '../user/anonymousUser.dart';
-import '../user/googleUser.dart';
 
 
 class SignIn {
@@ -53,7 +52,7 @@ class SignIn {
           .get();
 
       if(querySnapshot.size == 0) {
-        GoogleUser user = GoogleUser(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid);
+        Student user = Student(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, studentId: 0, major: '', MBTI: '',);
         userCollectionRef.add(user.toMap());
       }
     } else {
@@ -63,8 +62,8 @@ class SignIn {
 
       if(querySnapshot.size == 0) {
 
-        AnonymousUser user = AnonymousUser(uid: FirebaseAuth.instance.currentUser!.uid);
-        userCollectionRef.add(user.toMap());
+        // AnonymousUser user = AnonymousUser(uid: FirebaseAuth.instance.currentUser!.uid);
+        // userCollectionRef.add(user.toMap());
       }
     }
   }
