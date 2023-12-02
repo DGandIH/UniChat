@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/page/studentSwipePage.dart';
 
 import '../../signIn/signIn.dart';
+import '../user/student.dart';
 
 class StudentSignUp extends StatefulWidget {
   StudentSignUp({super.key});
@@ -25,16 +28,30 @@ class _StudentSignUpState extends State {
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF5DB075),
-        leading: TextButton(
-            onPressed: () {
-              _signIn.signOUt();
-              // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.login,
-              color: Colors.white,
-            )),
+        actions: [
+          TextButton(
+              onPressed: () async {
+                String studentId = _studentIdController.text;
+                String major = _studentIdController.text;
+                String mbti = _mbtiController.text;
+                Student? student = await _signIn.addUserCollection(studentId, major, mbti);
+                // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
+
+                if(student != null) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MySwipePages(student),
+                      ));
+                }
+
+              },
+              child: const Icon(
+                Icons.login,
+                color: Colors.white,
+              )),
+        ],
         title: const Text(
           "프로필",
           style: TextStyle(
@@ -90,62 +107,45 @@ class _StudentSignUpState extends State {
                           fontSize: MediaQuery.of(context).size.width * 0.1,
                           fontWeight: FontWeight.w800),
                     ),
-                    Expanded(
-                      child: TextField(
-                          controller: _studentIdController,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.05,
-                              fontWeight: FontWeight.w500)),
-                    ),
+                    TextField(
+                        decoration:
+                            const InputDecoration(hintText: "학번을 입력하세요"),
+                        controller: _studentIdController,
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                            fontWeight: FontWeight.w500)),
                     Expanded(
                       child: Column(
                         children: [
                           Row(
                             children: [
-                              const Icon(
-                                Icons.circle,
-                                size: 20,
-                              ),
                               SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.025),
-                              const Text(
-                                "전공",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              const Spacer(),
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
                               Expanded(
                                   child: TextField(
-                                style: TextStyle(fontSize: 20),
+                                decoration:
+                                    const InputDecoration(hintText: "전공을 입력하세요"),
+                                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
                                 controller: _majorController,
                               )),
                             ],
                           ),
-                          const Divider(),
                           Row(
                             children: [
-                              const Icon(
-                                Icons.circle,
-                                size: 20,
-                              ),
                               SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.025),
-                              const Text(
-                                "MBTI",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              const Spacer(),
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
                               Expanded(
                                 child: TextField(
-                                  style: TextStyle(fontSize: 20),
+                                  decoration:
+                                      const InputDecoration(hintText: "mbti를 입력하세요"),
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
                                   controller: _mbtiController,
                                 ),
                               ),
                             ],
                           ),
-                          const Divider(),
                         ],
                       ),
                     ),

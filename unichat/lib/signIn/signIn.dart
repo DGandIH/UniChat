@@ -33,11 +33,13 @@ class SignIn {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  void addUserCollection() async {
+  Future<Student?> addUserCollection(String studentId, String major, String mbti) async {
     // Firestore 인스턴스 가져오기
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // 사용자 문서에 대한 참조 가져오기
     CollectionReference userCollectionRef = firestore.collection('user');
+    DocumentReference userDocRef = firestore.collection('user').doc(FirebaseAuth.instance.currentUser!.uid);
+
 
     String? email = FirebaseAuth.instance.currentUser!.email;
     String? name = FirebaseAuth.instance.currentUser!.displayName;
@@ -52,19 +54,15 @@ class SignIn {
           .get();
 
       if(querySnapshot.size == 0) {
-        Student user = Student(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, studentId: 0, major: '', MBTI: '',);
-        userCollectionRef.add(user.toMap());
+        Student user = Student(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, studentId: studentId, major: major, MBTI: mbti,);
+        userDocRef.set(user.toMap());
+        return user;
       }
     } else {
       QuerySnapshot querySnapshot = await userCollectionRef
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
-
-      if(querySnapshot.size == 0) {
-
-        // AnonymousUser user = AnonymousUser(uid: FirebaseAuth.instance.currentUser!.uid);
-        // userCollectionRef.add(user.toMap());
-      }
+      return null;
     }
   }
 

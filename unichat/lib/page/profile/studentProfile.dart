@@ -1,14 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../signIn/signIn.dart';
+import '../../user/student.dart';
 
 class StudentProfile extends StatelessWidget {
   final _signIn = SignIn();
+  Student student;
 
-  StudentProfile({super.key});
+  StudentProfile({super.key, required this.student});
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -81,12 +90,12 @@ class StudentProfile extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
-                    "이름",
+                    student.name,
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.1,
                         fontWeight: FontWeight.w800),
                   ),
-                  Text("학번",
+                  Text(student.studentId,
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                           fontWeight: FontWeight.w500)),
@@ -101,7 +110,7 @@ class StudentProfile extends StatelessWidget {
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
                             const Text("전공", style: TextStyle(fontSize: 20),),
                             const Spacer(),
-                            const Text("전공", style: TextStyle(fontSize: 20),),
+                            Text(student.major, style: const TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
@@ -112,7 +121,7 @@ class StudentProfile extends StatelessWidget {
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
                             const Text("MBTI", style: TextStyle(fontSize: 20),),
                             const Spacer(),
-                            const Text("MBTI", style: TextStyle(fontSize: 20),),
+                            Text(student.MBTI, style: const TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
