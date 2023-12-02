@@ -31,7 +31,7 @@ class ProfessorLoginPage extends StatelessWidget {
                   // 로그인에 성공했는지 확인
                   if (userCredential.user != null) {
                     print('로그인 성공: ${userCredential.user!.email}');
-                    _signIn.addUserCollection();
+                    // _signIn.addUserCollection();
 
                     Navigator.pushNamed(context, "/professor/profile");
                   }
@@ -59,7 +59,7 @@ class ProfessorLoginPage extends StatelessWidget {
                   // signInWithGoogle 함수를 호출하여 로그인 시도
                   UserCredential userCredential =
                   await _signIn.signInAnonymously();
-                  _signIn.addUserCollection();
+                  // _signIn.addUserCollection();
                 } on FirebaseAuthException catch (e) {
                   print("error");
                 }
