@@ -22,6 +22,7 @@ import 'package:unichat/page/map.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/page/reserve/studentReservation.dart';
+import 'package:unichat/signIn/studentSignUp.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -38,10 +39,10 @@ class MyApp extends StatelessWidget {
           '/professor/profile' : (BuildContext context) => ProfessorProfile(),
           '/professor/login' : (BuildContext context) => ProfessorLoginPage(),
           '/student/login' : (BuildContext context) => StudentLoginPage(),
-          '/student/profile' : (BuildContext context) => StudentProfile(),
           '/test' : (BuildContext context) => const ProfessorList(),
           '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
           '/reservation/student' : (BuildContext context) => const StudentReservation(),
+          '/student/signUp' : (BuildContext context) => StudentSignUp(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );
