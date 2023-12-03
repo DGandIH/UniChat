@@ -49,6 +49,7 @@ dependencies:
   google_sign_in: ^6.1.6
   dart_geohash: ^2.0.2
   geoflutterfire2: ^2.3.15
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:
