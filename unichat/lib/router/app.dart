@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/login',
+        initialRoute: '/map',
         routes: {
           '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),

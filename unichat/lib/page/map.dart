@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -34,23 +35,31 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
-    getCurrentLocationAndSave();
-    addUserMarkers();
+    initializeLocation();
+  }
+
+  Future<void> initializeLocation() async {
+    await getCurrentLocationAndSave();
+    await displayNearbyUsers();
   }
 
   Future<void> getCurrentLocationAndSave() async {
+    print("들어옴");
     try {
       final position = await geo.Geolocator.getCurrentPosition();
-      final locationData = LocationData.fromMap({
-        'latitude': position.latitude,
-        'longitude': position.longitude
-      });
-      userLocation.addOrUpdateLocation(locationData, "LeeInhyeok");
+      // final locationData = LocationData.fromMap({
+      //   'latitude': position.latitude,
+      //   'longitude': position.longitude
+      // });
+      userLocation.saveUserLocation(position.latitude, position.longitude, "LeeInhyeok");
+      userLocation.saveUserLocation(36.10221, 129.38808, "KimDongkyu");
+      userLocation.saveUserLocation(36.101929, 129.391449, "LeeDabin");
+      userLocation.saveUserLocation(35.986752, 129.421242, "SoByungchan");
 
       final marker = Marker(
         markerId: MarkerId("currentLocation"),
         position: LatLng(position.latitude, position.longitude),
-        infoWindow: InfoWindow(title: '유저 위치'),
+        infoWindow: InfoWindow(title: '내 위치'),
       );
 
       setState(() {
@@ -71,25 +80,53 @@ class _MapPageState extends State<MapPage> {
     return await geo.Geolocator.getCurrentPosition();
   }
 
-  void addUserMarkers() async {
-    UserLocation userLocation = UserLocation();
-    final currentPosition = await getUserCurrentLocation();
-    var markers = await userLocation.loadUserLocationMarkers();
-    setState(() {
-      _markers.addAll(
-        markers.where((marker) {
-          final markerPosition = LatLng(marker.position.latitude, marker.position.longitude);
-          final distanceInMeters = geo.Geolocator.distanceBetween(
-              currentPosition.latitude,
-              currentPosition.longitude,
-              markerPosition.latitude,
-              markerPosition.longitude
-          );
-          return distanceInMeters <= 5000;
-        }).toList(),
-      );
+  Future<void> displayNearbyUsers() async {
+    final currentPosition = await geo.Geolocator.getCurrentPosition();
+
+    final userLocationsStream = userLocation.getNearbyUsers(
+        currentPosition.latitude, currentPosition.longitude, 5);
+
+    userLocationsStream.listen((List<DocumentSnapshot> documentList) {
+      setState(() {
+        _markers.clear();
+        for (var document in documentList) {
+          final data = document.data() as Map<String, dynamic>?;
+          if (data != null) {
+            final geoPoint = data['position']['geopoint'];
+            if (geoPoint != null) {
+              final marker = Marker(
+                markerId: MarkerId(document.id),
+                position: LatLng(geoPoint.latitude, geoPoint.longitude),
+                infoWindow: InfoWindow(title:'유저 위치'),
+              );
+              _markers.add(marker);
+            }
+          }
+        }
+      });
     });
   }
+
+
+  // void addUserMarkers() async {
+  //   UserLocation userLocation = UserLocation();
+  //   final currentPosition = await getUserCurrentLocation();
+  //   var markers = await userLocation.loadUserLocationMarkers();
+  //   setState(() {
+  //     _markers.addAll(
+  //       markers.where((marker) {
+  //         final markerPosition = LatLng(marker.position.latitude, marker.position.longitude);
+  //         final distanceInMeters = geo.Geolocator.distanceBetween(
+  //             currentPosition.latitude,
+  //             currentPosition.longitude,
+  //             markerPosition.latitude,
+  //             markerPosition.longitude
+  //         );
+  //         return distanceInMeters <= 5000;
+  //       }).toList(),
+  //     );
+  //   });
+  // }
 
   Future<void> _zoomIn() async {
     final GoogleMapController controller = await _controller.future;
@@ -144,7 +181,7 @@ class _MapPageState extends State<MapPage> {
           FloatingActionButton(
             onPressed: () async {
               getUserCurrentLocation().then((value) async {
-                print(value.latitude.toString() +" "+value.longitude.toString());
+                // print(value.latitude.toString() +" "+value.longitude.toString());
                 _markers.add(
                     Marker(
                       markerId: MarkerId("2"),
