@@ -20,7 +20,6 @@ class _AvailableTimeFormState extends State<AvailableTimeForm> {
   }
 
   Future<void> _loadReservedTimes() async {
-    // Firestore에서 선택한 날짜의 예약된 시간대 목록을 읽어옵니다.
     var selectedDateStr = "${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}";
     var collection = FirebaseFirestore.instance.collection('reservations');
     var snapshot = await collection.doc(selectedDateStr).get();
@@ -62,8 +61,6 @@ class _AvailableTimeFormState extends State<AvailableTimeForm> {
           _selectedTime = pickedTime;
         });
       } else {
-        // 예약된 시간대를 선택하려고 할 때 경고 표시 또는 처리 방법을 추가하세요.
-        // 예를 들어, ScaffoldMessenger를 사용하여 경고 메시지를 표시할 수 있습니다.
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('This time slot is already reserved.'),
         ));
@@ -93,8 +90,6 @@ class _AvailableTimeFormState extends State<AvailableTimeForm> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // 여기에서 _selectedDate와 _selectedTime을 사용하여 처리합니다.
-                // 예를 들어, Firestore에 저장하거나 다른 작업을 수행할 수 있습니다.
                 Navigator.pop(context);
               },
               child: Text('Complete'),

@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:unichat/page/calendar/professorCalendar.dart';
 import 'package:unichat/page/calendar/studentCalendar.dart';
+import 'package:unichat/page/chat/chatScreen.dart';
 import 'package:unichat/page/contact/professorProfileWithStudent.dart';
 import 'package:unichat/page/list/professorList.dart';
 import 'package:unichat/page/login/login.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/professor/calendar',
+        initialRoute: '/chat',
         routes: {
           '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           '/student/signUp' : (BuildContext context) => StudentSignUp(),
           '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
           '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
+          '/chat' : (BuildContext context) => ChatScreen(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );
