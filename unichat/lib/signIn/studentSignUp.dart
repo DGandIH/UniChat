@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/swipe/studentSwipePage.dart';
 
 import '../../signIn/signIn.dart';
+import '../image/imageUploader.dart';
 import '../user/student.dart';
 
 class StudentSignUp extends StatefulWidget {
@@ -19,6 +24,8 @@ class _StudentSignUpState extends State {
   final _studentIdController = TextEditingController();
   final _majorController = TextEditingController();
   final _mbtiController = TextEditingController();
+  final _imageUploader = ImageUploader();
+  XFile? _image;
 
   final _signIn = SignIn();
 
@@ -34,7 +41,15 @@ class _StudentSignUpState extends State {
                 String studentId = _studentIdController.text;
                 String major = _studentIdController.text;
                 String mbti = _mbtiController.text;
-                Student? student = await _signIn.addUserCollection(studentId, major, mbti);
+
+                Future<String?> path =
+                _imageUploader.uploadImageToFirebase(_image);
+
+                String? uploadPath = await path;
+                await _imageUploader.saveImageUrlToFirestore(uploadPath!);
+
+
+                Student? student = await _signIn.addUserCollection(studentId, major, mbti, uploadPath);
                 // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
 
                 if(student != null) {
@@ -77,9 +92,10 @@ class _StudentSignUpState extends State {
                                 height:
                                     MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
-                                child: const Image(
+                                child: _image == null ?
+                                Image(
                                   image: AssetImage("assets/logo.png"),
-                                ))),
+                                ) : Image.file(File(_image!.path)))),
                       ),
                     ],
                   ),
@@ -102,7 +118,7 @@ class _StudentSignUpState extends State {
                       height: MediaQuery.of(context).size.height * 0.025,
                     ),
                     Text(
-                      "이름",
+                      FirebaseAuth.instance.currentUser?.displayName ?? '이름',
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.1,
                           fontWeight: FontWeight.w800),
@@ -110,6 +126,32 @@ class _StudentSignUpState extends State {
                     Expanded(
                       child: Column(
                         children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
+                              Expanded(
+                                  child: TextButton(
+                                    onPressed: () async {
+
+                                      Future<XFile?> image = _imageUploader.getData();
+                                      XFile? uploadImage = await image;
+
+                                      if (uploadImage != null) {
+                                        setState(() {
+                                          _image = uploadImage;
+                                          print(_image?.name);
+                                        });
+                                      }
+                                    },
+                                    child: Text(
+                                      "사진 추가하기",
+                                      style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
+                                    ),
+                                  )),
+                            ],
+                          ),
                           Row(
                             children: [
                               SizedBox(

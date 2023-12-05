@@ -51,6 +51,9 @@ dependencies:
   geoflutterfire2: ^2.3.15
   table_calendar: ^3.0.9
   flutter_chat_bubble: ^2.0.2
+  permission_handler: ^11.0.1
+  firebase_storage: ^11.5.3
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:

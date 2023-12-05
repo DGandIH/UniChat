@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/swipe/professorSwipePage.dart';
@@ -109,7 +110,7 @@ class _ProfessorSignUp extends State {
                       height: MediaQuery.of(context).size.height * 0.025,
                     ),
                     Text(
-                      "이름",
+                      FirebaseAuth.instance.currentUser?.displayName ?? '이름',
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.1,
                           fontWeight: FontWeight.w800),
