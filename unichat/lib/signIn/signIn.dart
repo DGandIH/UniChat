@@ -35,7 +35,7 @@ class SignIn {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<Student?> addUserCollection(String studentId, String major, String mbti) async {
+  Future<Student?> addUserCollection(String studentId, String major, String mbti, String uploadPath) async {
     // Firestore 인스턴스 가져오기
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // 사용자 문서에 대한 참조 가져오기
@@ -56,7 +56,7 @@ class SignIn {
           .get();
 
       if(querySnapshot.size == 0) {
-        Student user = Student(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, studentId: studentId, major: major, MBTI: mbti,);
+        Student user = Student(email: userEmail, name: userName, imagePath: uploadPath, uid: FirebaseAuth.instance.currentUser!.uid, studentId: studentId, major: major, MBTI: mbti,);
         userDocRef.set(user.toMap());
         return user;
       }
