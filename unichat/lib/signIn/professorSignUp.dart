@@ -36,14 +36,12 @@ class _ProfessorSignUp extends State {
         actions: [
           TextButton(
               onPressed: () async {
-                String studentId = _studentIdController.text;
-                String major = _studentIdController.text;
+                String major = _majorController.text;
                 String word = _wordController.text;
                 String section = _sectionController.text;
                 String group = _groupController.text;
-                String email = _emailController.text;
 
-                Professor? professor = await _signIn.addProfessorCollection(studentId, major, word);
+                Professor? professor = await _signIn.addProfessorCollection(major, word, section, group);
                 // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
 
                 if(professor != null) {
@@ -116,13 +114,6 @@ class _ProfessorSignUp extends State {
                           fontSize: MediaQuery.of(context).size.width * 0.1,
                           fontWeight: FontWeight.w800),
                     ),
-                    TextField(
-                        decoration:
-                        const InputDecoration(hintText: "email을 입력하세요"),
-                        controller: _studentIdController,
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.w500)),
                     Expanded(
                       child: Column(
                         children: [

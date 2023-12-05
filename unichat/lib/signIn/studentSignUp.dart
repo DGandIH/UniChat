@@ -107,16 +107,23 @@ class _StudentSignUpState extends State {
                           fontSize: MediaQuery.of(context).size.width * 0.1,
                           fontWeight: FontWeight.w800),
                     ),
-                    TextField(
-                        decoration:
-                            const InputDecoration(hintText: "학번을 입력하세요"),
-                        controller: _studentIdController,
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontWeight: FontWeight.w500)),
                     Expanded(
                       child: Column(
                         children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
+                              Expanded(
+                                  child: TextField(
+                                    decoration:
+                                    const InputDecoration(hintText: "학번을 입력하세요"),
+                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
+                                    controller: _studentIdController,
+                                  )),
+                            ],
+                          ),
                           Row(
                             children: [
                               SizedBox(
