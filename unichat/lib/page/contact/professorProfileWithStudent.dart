@@ -2,6 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unichat/page/calendar/professorCalendar.dart';
+import 'package:unichat/page/calendar/studentCalendar.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 
 class ProfessorProfileWithStudent extends StatelessWidget {
@@ -18,7 +20,12 @@ class ProfessorProfileWithStudent extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/reservation/student");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ProfessorCalendarPage(),
+                    ));
               },
               child: const Icon(
                 Icons.edit,
