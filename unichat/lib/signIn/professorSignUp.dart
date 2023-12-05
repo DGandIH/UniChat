@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/swipe/professorSwipePage.dart';
 import 'package:unichat/swipe/studentSwipePage.dart';
 
 import '../../signIn/signIn.dart';
+import '../user/professor.dart';
 import '../user/student.dart';
 
-class StudentSignUp extends StatefulWidget {
-  StudentSignUp({super.key});
+class ProfessorSignUp extends StatefulWidget {
+  ProfessorSignUp({super.key});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _StudentSignUpState();
+    return _ProfessorSignUp();
   }
 }
 
-class _StudentSignUpState extends State {
+class _ProfessorSignUp extends State {
   final _studentIdController = TextEditingController();
   final _majorController = TextEditingController();
-  final _mbtiController = TextEditingController();
+  final _sectionController = TextEditingController();
+  final _groupController = TextEditingController();
+  final _wordController = TextEditingController();
+  final _emailController = TextEditingController();
 
   final _signIn = SignIn();
 
@@ -33,16 +38,20 @@ class _StudentSignUpState extends State {
               onPressed: () async {
                 String studentId = _studentIdController.text;
                 String major = _studentIdController.text;
-                String mbti = _mbtiController.text;
-                Student? student = await _signIn.addUserCollection(studentId, major, mbti);
+                String word = _wordController.text;
+                String section = _sectionController.text;
+                String group = _groupController.text;
+                String email = _emailController.text;
+
+                Professor? professor = await _signIn.addProfessorCollection(studentId, major, word);
                 // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
 
-                if(student != null) {
+                if(professor != null) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            StudentSwipePages(student),
+                            ProfessorSwipePages(professor),
                       ));
                 }
 
@@ -53,7 +62,7 @@ class _StudentSignUpState extends State {
               )),
         ],
         title: const Text(
-          "프로필",
+          "교수님 프로필",
           style: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -75,7 +84,7 @@ class _StudentSignUpState extends State {
                             child: Container(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 height:
-                                    MediaQuery.of(context).size.width * 0.45,
+                                MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
                                 child: const Image(
                                   image: AssetImage("assets/logo.png"),
@@ -109,7 +118,7 @@ class _StudentSignUpState extends State {
                     ),
                     TextField(
                         decoration:
-                            const InputDecoration(hintText: "학번을 입력하세요"),
+                        const InputDecoration(hintText: "email을 입력하세요"),
                         controller: _studentIdController,
                         style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width * 0.05,
@@ -124,11 +133,11 @@ class _StudentSignUpState extends State {
                                       0.025),
                               Expanded(
                                   child: TextField(
-                                decoration:
-                                    const InputDecoration(hintText: "전공을 입력하세요"),
-                                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
-                                controller: _majorController,
-                              )),
+                                    decoration:
+                                    const InputDecoration(hintText: "소속 학부를 입력하세요"),
+                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
+                                    controller: _groupController,
+                                  )),
                             ],
                           ),
                           Row(
@@ -139,9 +148,39 @@ class _StudentSignUpState extends State {
                               Expanded(
                                 child: TextField(
                                   decoration:
-                                      const InputDecoration(hintText: "mbti를 입력하세요"),
+                                  const InputDecoration(hintText: "전공을 입력하세요"),
                                   style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
-                                  controller: _mbtiController,
+                                  controller: _majorController,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
+                              Expanded(
+                                child: TextField(
+                                  decoration:
+                                  const InputDecoration(hintText: "관심분야를 입력하세요"),
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
+                                  controller: _sectionController,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
+                              Expanded(
+                                child: TextField(
+                                  decoration:
+                                  const InputDecoration(hintText: "하고싶은 말을 입력하세요"),
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
+                                  controller: _wordController,
                                 ),
                               ),
                             ],

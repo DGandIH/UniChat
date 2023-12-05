@@ -35,11 +35,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/chat',
+        initialRoute: '/professor/calendar',
         routes: {
           '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
-          '/professor/profile' : (BuildContext context) => ProfessorProfile(),
           '/professor/login' : (BuildContext context) => ProfessorLoginPage(),
           '/student/login' : (BuildContext context) => StudentLoginPage(),
           '/test' : (BuildContext context) => const ProfessorList(),

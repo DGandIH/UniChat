@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../signIn/signIn.dart';
+import '../../user/professor.dart';
 
 class ProfessorProfile extends StatelessWidget {
   final _signIn = SignIn();
+  Professor professor;
 
-  ProfessorProfile({super.key});
+  ProfessorProfile({super.key, required this.professor});
+
+
 
   @override
   Widget build(BuildContext context) {
