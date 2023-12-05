@@ -68,12 +68,12 @@ class SignIn {
     }
   }
 
-  Future<Professor?> addProfessorCollection(String studentId, String major, String mbti) async {
+  Future<Professor?> addProfessorCollection(String major, String word, String section, String group) async {
     // Firestore 인스턴스 가져오기
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // 사용자 문서에 대한 참조 가져오기
-    CollectionReference userCollectionRef = firestore.collection('user');
-    DocumentReference userDocRef = firestore.collection('user').doc(FirebaseAuth.instance.currentUser!.uid);
+    CollectionReference userCollectionRef = firestore.collection('professor');
+    DocumentReference userDocRef = firestore.collection('professor').doc(FirebaseAuth.instance.currentUser!.uid);
 
 
     String? email = FirebaseAuth.instance.currentUser!.email;
@@ -89,9 +89,9 @@ class SignIn {
           .get();
 
       if(querySnapshot.size == 0) {
-        Student user = Student(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, studentId: studentId, major: major, MBTI: mbti,);
+        Professor user = Professor(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, major: major, department: section, words: word);
         userDocRef.set(user.toMap());
-        // return user;
+        return user;
       }
     } else {
       QuerySnapshot querySnapshot = await userCollectionRef

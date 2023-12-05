@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:unichat/signIn/professorSignUp.dart';
+import 'package:unichat/swipe/professorSwipePage.dart';
+import 'package:unichat/user/professor.dart';
 
 import '../../signIn/signIn.dart';
 
@@ -28,13 +32,28 @@ class ProfessorLoginPage extends StatelessWidget {
                   UserCredential userCredential =
                   await _signIn.signInWithGoogle();
 
-                  // 로그인에 성공했는지 확인
-                  if (userCredential.user != null) {
-                    print('로그인 성공: ${userCredential.user!.email}');
-                    // _signIn.addUserCollection();
+                  FirebaseFirestore firestore = FirebaseFirestore.instance;
+                  DocumentReference userDocRef = firestore.collection('professor').doc(FirebaseAuth.instance.currentUser!.uid);
+                  DocumentSnapshot userDocSnapshot = await userDocRef.get();
 
-                    Navigator.pushNamed(context, "/professor/profile");
+                  if(userDocSnapshot.exists) {
+                    Professor user = Professor.fromDocument(userDocSnapshot);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProfessorSwipePages(user),
+                        ));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProfessorSignUp(),
+                        ));
                   }
+
+
                 } on FirebaseAuthException catch (e) {
                   // Firebase 인증 에러 처리
                   print('로그인 실패: ${e.message}');

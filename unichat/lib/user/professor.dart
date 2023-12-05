@@ -5,7 +5,6 @@ class Professor {
   String name;
   String uid;
   String major;
-  String MBTI;
   String words;
   String department;
 
@@ -14,7 +13,6 @@ class Professor {
       required this.name,
       required this.uid,
       required this.major,
-      required this.MBTI,
       required this.department,
       required this.words});
 
@@ -24,7 +22,6 @@ class Professor {
       'name': name,
       'uid': uid,
       'major': major,
-      'MBTI': MBTI,
       'department': department,
       'words': words
     };
@@ -37,7 +34,6 @@ class Professor {
       email: doc['email'],
       uid: doc['uid'],
       major: doc['major'],
-      MBTI: doc['MBTI'],
       words: doc['words'],
     );
   }

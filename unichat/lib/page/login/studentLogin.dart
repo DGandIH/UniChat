@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:unichat/signIn/studentSignUp.dart';
 import 'package:unichat/swipe/studentSwipePage.dart';
 
 import '../../signIn/signIn.dart';
@@ -51,7 +52,12 @@ class StudentLoginPage extends StatelessWidget {
                                 StudentSwipePages(user),
                           ));
                     } else {
-                      Navigator.pushNamed(context, "/student/signUp");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                StudentSignUp(),
+                          ));
                     }
 
 
