@@ -13,12 +13,15 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:unichat/page/calendar/professorCalendar.dart';
+import 'package:unichat/page/calendar/studentCalendar.dart';
+import 'package:unichat/page/chat/chatScreen.dart';
 import 'package:unichat/page/contact/professorProfileWithStudent.dart';
 import 'package:unichat/page/list/professorList.dart';
 import 'package:unichat/page/login/login.dart';
 import 'package:unichat/page/login/professorLogin.dart';
 import 'package:unichat/page/login/studentLogin.dart';
-import 'package:unichat/page/map.dart';
+import 'package:unichat/page/map/map.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/page/reserve/studentReservation.dart';
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
         title: 'UniChat',
-        initialRoute: '/login',
+        initialRoute: '/professor/calendar',
         routes: {
           '/login' : (BuildContext context) => LoginPage(),
           '/map' : (BuildContext context) => const MapPage(),
@@ -42,6 +45,9 @@ class MyApp extends StatelessWidget {
           '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
           '/reservation/student' : (BuildContext context) => const StudentReservation(),
           '/student/signUp' : (BuildContext context) => StudentSignUp(),
+          '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
+          '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
+          '/chat' : (BuildContext context) => ChatScreen(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );

@@ -41,12 +41,16 @@ dependencies:
   json_serializable: ^6.7.1
   location: ^5.0.3
   geolocator: ^10.1.0
-  firebase_core: ^2.23.0
+  firebase_core: ^2.24.0
   firebase_database: ^10.3.5
   flutter_native_splash: ^2.3.6
   firebase_auth: ^4.14.0
-  cloud_firestore: ^4.13.1
+  cloud_firestore: ^4.13.3
   google_sign_in: ^6.1.6
+  dart_geohash: ^2.0.2
+  geoflutterfire2: ^2.3.15
+  table_calendar: ^3.0.9
+  flutter_chat_bubble: ^2.0.2
 
 dev_dependencies:
   flutter_test:

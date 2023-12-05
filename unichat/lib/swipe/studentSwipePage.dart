@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:unichat/page/map/map.dart';
 import 'package:unichat/page/list/professorList.dart';
-import 'package:unichat/page/map.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/page/reserve/studentReservation.dart';
 

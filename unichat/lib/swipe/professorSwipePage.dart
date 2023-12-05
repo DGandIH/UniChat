@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:unichat/page/list/professorList.dart';
-import 'package:unichat/page/map.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/page/reserve/studentReservation.dart';
 import 'package:unichat/user/professor.dart';
 
+import '../page/map/map.dart';
 import '../user/student.dart';
 
 class ProfessorSwipePages extends StatefulWidget {
