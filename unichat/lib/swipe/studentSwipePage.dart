@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:unichat/page/list/professorList.dart';
 import 'package:unichat/page/map.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/page/reserve/studentReservation.dart';
 
 import '../user/student.dart';
 
-class MySwipePages extends StatefulWidget {
+class StudentSwipePages extends StatefulWidget {
   Student student;
-  MySwipePages(this.student);
+  StudentSwipePages(this.student);
 
   @override
-  _MySwipePagesState createState() => _MySwipePagesState(this.student);
+  _StudentSwipePagesState createState() => _StudentSwipePagesState(this.student);
 }
 
-class _MySwipePagesState extends State<MySwipePages> {
+class _StudentSwipePagesState extends State<StudentSwipePages> {
   late Student student;
   PageController _controller = PageController(
     initialPage: 0, // 초기 페이지 인덱스 설정
   );
 
-  _MySwipePagesState(this.student);
+  _StudentSwipePagesState(this.student);
 
   @override
   void dispose() {
@@ -33,7 +35,9 @@ class _MySwipePagesState extends State<MySwipePages> {
         controller: _controller,
         children: <Widget>[
           StudentProfile(student: student),
-          MapPage()
+          MapPage(),
+          ProfessorList(),
+          StudentReservation()
 
         ],
         onPageChanged: (int page) {
