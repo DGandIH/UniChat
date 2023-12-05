@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../user/professor.dart';
 
 class ProfessorList extends StatelessWidget {
   const ProfessorList({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -24,160 +28,73 @@ class ProfessorList extends StatelessWidget {
                 MediaQuery.of(context).size.width * 0.08,
                 MediaQuery.of(context).size.height * 0.05,
                 MediaQuery.of(context).size.width * 0.08,
-                0),
-            child: Column(
-              children: [
-                const TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    // 힌트 텍스트 설정
-                    filled: true,
-                    // 배경색을 채우기 위해 true로 설정
-                    fillColor: Color(0xffE8E8E8),
-                    // 배경색을 흰색으로 설정
-                    border: OutlineInputBorder(
-                      // 테두리 설정
-                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      // 둥근 모서리의 반경 설정
-                      borderSide: BorderSide.none, // 테두리 선을 없앰
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                    // 내부 패딩 설정
-                    prefixIcon:
-                        Icon(Icons.search, color: Colors.grey), // 검색 아이콘 설정
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.025,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child:
-                            const Image(image: AssetImage("assets/logo.png"))),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "조성배 교수님",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Text("안녕하세요~ 커피챗 해요~~"),
-                      ],
-                    ),
-                    Spacer(),
-                    IconButton(onPressed: () {
-                      Navigator.pushNamed(context, "/professor/student");
-                    }, icon: Icon(Icons.chat, color: Color(0xFF5DB075),))
-                  ],
-                ),
-                Divider(
-                  indent: MediaQuery.of(context).size.width * 0.23,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child:
-                        const Image(image: AssetImage("assets/logo.png"))),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "남재창 교수님",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Text("커피 한 잔 마셔요~"),
-                      ],
-                    ),
-                    Spacer(),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.chat, color: Color(0xFF5DB075),))
-                  ],
-                ),
-                Divider(
-                  indent: MediaQuery.of(context).size.width * 0.23,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child:
-                        const Image(image: AssetImage("assets/logo.png"))),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "홍신 교수님",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Text("시간 있으면 커피 한 잔 해요"),
-                      ],
-                    ),
-                    Spacer(),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.chat, color: Color(0xFF5DB075),))
-                  ],
-                ),
-                Divider(
-                  indent: MediaQuery.of(context).size.width * 0.23,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child:
-                        const Image(image: AssetImage("assets/logo.png"))),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "용환기 교수님",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        Text("너 오피스로 좀 와라"),
-                      ],
-                    ),
-                    Spacer(),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.chat, color: Color(0xFF5DB075),))
-                  ],
-                ),
-                Divider(
-                  indent: MediaQuery.of(context).size.width * 0.23,
-                )
-              ],
+                0
+            ),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search',
+                // 나머지 decoration 설정...
+              ),
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          Expanded(
+            child: FutureBuilder<List<Professor>> (
+              future: getProfessors(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // 데이터 로딩 중...
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  // 오류 발생 시
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+
+                return ListView(
+                  children: snapshot.data!.map((professor) => _buildProfessorRow(context, professor)).toList(),
+                );
+              },
             ),
           ),
         ],
-      ),
+      )
     );
   }
+}
+
+Widget _buildProfessorRow(BuildContext context, Professor professor) {
+  // 교수 정보를 Row 위젯으로 표시
+  return Padding(
+    padding: EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(professor.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              Text(professor.words),
+            ],
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            // 클릭 이벤트 처리
+          },
+          icon: Icon(Icons.chat, color: Color(0xFF5DB075)),
+        ),
+      ],
+    ),
+  );
+}
+
+
+Future<List<Professor>> getProfessors() async { // professor 객체에 있는 모든 값들을 다 가지고 옴
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('professor').get();
+
+  return querySnapshot.docs.map((doc) {
+    return Professor.fromDocument(doc);
+  }).toList();
 }

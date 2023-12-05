@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Professor {
   String email;
   String name;
@@ -23,8 +25,20 @@ class Professor {
       'uid': uid,
       'major': major,
       'MBTI': MBTI,
-      'department' : department,
-      'words' : words
+      'department': department,
+      'words': words
     };
+  }
+
+  factory Professor.fromDocument(DocumentSnapshot doc) {
+    return Professor(
+      name: doc['name'],
+      department: doc['department'],
+      email: doc['email'],
+      uid: doc['uid'],
+      major: doc['major'],
+      MBTI: doc['MBTI'],
+      words: doc['words'],
+    );
   }
 }
