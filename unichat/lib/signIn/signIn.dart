@@ -5,10 +5,7 @@ import 'package:unichat/user/student.dart';
 
 import '../user/professor.dart';
 
-
-
 class SignIn {
-
   Future<UserCredential> signInWithGoogle() async {
     // Google 로그인 프로세스 시작
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -22,7 +19,8 @@ class SignIn {
     }
 
     // Google 인증 세부 정보 요청
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
     // Google 인증 세부 정보를 사용하여 Firebase 사용자 인증 정보 생성
     final OAuthCredential credential = GoogleAuthProvider.credential(
@@ -30,33 +28,41 @@ class SignIn {
       idToken: googleAuth.idToken,
     );
 
-
     // Firebase에 인증 정보를 사용하여 로그인
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<Student?> addUserCollection(String studentId, String major, String mbti, String uploadPath) async {
+  Future<Student?> addUserCollection(
+      String studentId, String major, String mbti, String uploadPath) async {
     // Firestore 인스턴스 가져오기
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // 사용자 문서에 대한 참조 가져오기
     CollectionReference userCollectionRef = firestore.collection('user');
-    DocumentReference userDocRef = firestore.collection('user').doc(FirebaseAuth.instance.currentUser!.uid);
-
+    DocumentReference userDocRef = firestore
+        .collection('user')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
 
     String? email = FirebaseAuth.instance.currentUser!.email;
     String? name = FirebaseAuth.instance.currentUser!.displayName;
 
-    if(email != null && name != null) {
+    if (email != null && name != null) {
       String userEmail = email;
       String userName = name;
-
 
       QuerySnapshot querySnapshot = await userCollectionRef
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
-      if(querySnapshot.size == 0) {
-        Student user = Student(email: userEmail, name: userName, imagePath: uploadPath, uid: FirebaseAuth.instance.currentUser!.uid, studentId: studentId, major: major, MBTI: mbti,);
+      if (querySnapshot.size == 0) {
+        Student user = Student(
+          email: userEmail,
+          name: userName,
+          imagePath: uploadPath,
+          uid: FirebaseAuth.instance.currentUser!.uid,
+          studentId: studentId,
+          major: major,
+          MBTI: mbti,
+        );
         userDocRef.set(user.toMap());
         return user;
       }
@@ -68,28 +74,36 @@ class SignIn {
     }
   }
 
-  Future<Professor?> addProfessorCollection(String major, String word, String section, String group) async {
+  Future<Professor?> addProfessorCollection(String major, String word,
+      String section, String group, String imagePath) async {
     // Firestore 인스턴스 가져오기
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // 사용자 문서에 대한 참조 가져오기
     CollectionReference userCollectionRef = firestore.collection('professor');
-    DocumentReference userDocRef = firestore.collection('professor').doc(FirebaseAuth.instance.currentUser!.uid);
-
+    DocumentReference userDocRef = firestore
+        .collection('professor')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
 
     String? email = FirebaseAuth.instance.currentUser!.email;
     String? name = FirebaseAuth.instance.currentUser!.displayName;
 
-    if(email != null && name != null) {
+    if (email != null && name != null) {
       String userEmail = email;
       String userName = name;
-
 
       QuerySnapshot querySnapshot = await userCollectionRef
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
-      if(querySnapshot.size == 0) {
-        Professor user = Professor(email: userEmail, name: userName, uid: FirebaseAuth.instance.currentUser!.uid, major: major, department: section, words: word);
+      if (querySnapshot.size == 0) {
+        Professor user = Professor(
+            email: userEmail,
+            name: userName,
+            uid: FirebaseAuth.instance.currentUser!.uid,
+            major: major,
+            department: section,
+            words: word,
+            imagePath: imagePath);
         userDocRef.set(user.toMap());
         return user;
       }
@@ -107,7 +121,5 @@ class SignIn {
 
   Future<void> signOUt() async {
     await FirebaseAuth.instance.signOut();
-
   }
-
 }
