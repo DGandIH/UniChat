@@ -71,8 +71,8 @@ class StudentProfile extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
-                                child: const Image(
-                                  image: AssetImage("assets/logo.png"),
+                                child: Image(
+                                  image: NetworkImage(student.imagePath),
                                 ))),
                       ),
                     ],

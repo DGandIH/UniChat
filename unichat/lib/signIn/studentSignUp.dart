@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/swipe/studentSwipePage.dart';
@@ -41,15 +42,21 @@ class _StudentSignUpState extends State {
                 String studentId = _studentIdController.text;
                 String major = _studentIdController.text;
                 String mbti = _mbtiController.text;
+                Student? student;
 
-                Future<String?> path =
-                _imageUploader.uploadImageToFirebase(_image);
+                if(_image != null) {
+                  Future<String?> path =
+                  _imageUploader.uploadImageToFirebase(_image);
 
-                String? uploadPath = await path;
-                await _imageUploader.saveImageUrlToFirestore(uploadPath!);
+                  String? uploadPath = await path;
+                  await _imageUploader.saveImageUrlToFirestore(uploadPath!);
 
 
-                Student? student = await _signIn.addUserCollection(studentId, major, mbti, uploadPath);
+                  student = await _signIn.addUserCollection(studentId, major, mbti, uploadPath);
+                } else {
+                  student = await _signIn.addUserCollection(studentId, major, mbti, "https://firebasestorage.googleapis.com/v0/b/unichat-d6dd5.appspot.com/o/uploads%2Flogo.png?alt=media&token=fcf72899-8e3c-41b1-b6d0-054fc225f8d4");
+                }
+
                 // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
 
                 if(student != null) {
@@ -57,7 +64,7 @@ class _StudentSignUpState extends State {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            StudentSwipePages(student),
+                            StudentSwipePages(student!),
                       ));
                 }
 
@@ -92,10 +99,11 @@ class _StudentSignUpState extends State {
                                 height:
                                     MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
-                                child: _image == null ?
-                                Image(
-                                  image: AssetImage("assets/logo.png"),
-                                ) : Image.file(File(_image!.path)))),
+                                child: _image == null
+                                    ? Image(
+                                        image: AssetImage("assets/logo.png"),
+                                      )
+                                    : Image.file(File(_image!.path)))),
                       ),
                     ],
                   ),

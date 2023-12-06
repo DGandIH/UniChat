@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
 import 'package:unichat/swipe/professorSwipePage.dart';
 import 'package:unichat/swipe/studentSwipePage.dart';
 
 import '../../signIn/signIn.dart';
+import '../image/imageUploader.dart';
 import '../user/professor.dart';
 import '../user/student.dart';
 
@@ -19,12 +23,12 @@ class ProfessorSignUp extends StatefulWidget {
 }
 
 class _ProfessorSignUp extends State {
-  final _studentIdController = TextEditingController();
   final _majorController = TextEditingController();
   final _sectionController = TextEditingController();
   final _groupController = TextEditingController();
   final _wordController = TextEditingController();
-  final _emailController = TextEditingController();
+  final _imageUploader = ImageUploader();
+  XFile? _image;
 
   final _signIn = SignIn();
 
@@ -41,16 +45,28 @@ class _ProfessorSignUp extends State {
                 String word = _wordController.text;
                 String section = _sectionController.text;
                 String group = _groupController.text;
+                Professor? professor;
 
-                Professor? professor = await _signIn.addProfessorCollection(major, word, section, group);
-                // 여기서 가입하는 부분으로 넘어가는 로직을 짜야함
+                if(_image != null) {
+                  Future<String?> path =
+                  _imageUploader.uploadImageToFirebase(_image);
+
+                  String? uploadPath = await path;
+                  await _imageUploader.saveImageUrlToFirestore(uploadPath!);
+
+
+                  professor = await _signIn.addProfessorCollection(major, word, section, group, uploadPath);
+                } else {
+                  professor = await _signIn.addProfessorCollection(major, word, section, group, "https://firebasestorage.googleapis.com/v0/b/unichat-d6dd5.appspot.com/o/uploads%2Flogo.png?alt=media&token=fcf72899-8e3c-41b1-b6d0-054fc225f8d4");
+                }
+
 
                 if(professor != null) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ProfessorSwipePages(professor),
+                            ProfessorSwipePages(professor!),
                       ));
                 }
 
@@ -85,9 +101,11 @@ class _ProfessorSignUp extends State {
                                 height:
                                 MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
-                                child: const Image(
+                                child: _image == null
+                                    ? Image(
                                   image: AssetImage("assets/logo.png"),
-                                ))),
+                                )
+                                    : Image.file(File(_image!.path)))),
                       ),
                     ],
                   ),
@@ -118,6 +136,32 @@ class _ProfessorSignUp extends State {
                     Expanded(
                       child: Column(
                         children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.025),
+                              Expanded(
+                                  child: TextButton(
+                                    onPressed: () async {
+
+                                      Future<XFile?> image = _imageUploader.getData();
+                                      XFile? uploadImage = await image;
+
+                                      if (uploadImage != null) {
+                                        setState(() {
+                                          _image = uploadImage;
+                                          print(_image?.name);
+                                        });
+                                      }
+                                    },
+                                    child: Text(
+                                      "사진 추가하기",
+                                      style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
+                                    ),
+                                  )),
+                            ],
+                          ),
                           Row(
                             children: [
                               SizedBox(

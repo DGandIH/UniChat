@@ -7,6 +7,7 @@ class Professor {
   String major;
   String words;
   String department;
+  String imagePath;
 
   Professor(
       {required this.email,
@@ -14,6 +15,7 @@ class Professor {
       required this.uid,
       required this.major,
       required this.department,
+        required this.imagePath,
       required this.words});
 
   Map<String, dynamic> toMap() {
@@ -23,12 +25,14 @@ class Professor {
       'uid': uid,
       'major': major,
       'department': department,
-      'words': words
+      'words': words,
+      'imagePath' : imagePath
     };
   }
 
   factory Professor.fromDocument(DocumentSnapshot doc) {
     return Professor(
+      imagePath: doc['imagePath'],
       name: doc['name'],
       department: doc['department'],
       email: doc['email'],
