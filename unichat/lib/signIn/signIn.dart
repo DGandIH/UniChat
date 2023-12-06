@@ -75,7 +75,7 @@ class SignIn {
   }
 
   Future<Professor?> addProfessorCollection(String major, String word,
-      String section, String group, String imagePath) async {
+      String section, String imagePath) async {
     // Firestore 인스턴스 가져오기
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     // 사용자 문서에 대한 참조 가져오기
@@ -121,5 +121,27 @@ class SignIn {
 
   Future<void> signOUt() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+
+  Future<Professor> updateProfessorProfile(String documentId, String major, String words, String department, String imagePath) async {
+    // Firestore 인스턴스 가져오기
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // 현재 사용자의 uid 가져오기
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    DocumentReference userDocRef = firestore.collection('professor').doc(uid);
+
+    Map<String, dynamic> dataToUpdate = {
+      'major': major,
+      'department': department,
+      'words': words,
+      'imagePath': imagePath,
+    };
+
+    await userDocRef.update(dataToUpdate);
+    DocumentSnapshot updatedDoc = await userDocRef.get();
+    return Professor.fromDocument(updatedDoc);
+
   }
 }
