@@ -60,7 +60,7 @@ class _ProfessorEditState extends State {
           },
         ),
         actions: [
-          TextButton(
+          IconButton(
               onPressed: () async {
                 String major = _majorController.text;
                 String word = _wordController.text;
@@ -90,8 +90,8 @@ class _ProfessorEditState extends State {
                 }
 
               },
-              child: const Icon(
-                Icons.login,
+              icon: Icon(
+                Icons.upload,
                 color: Colors.white,
               )),
         ],
