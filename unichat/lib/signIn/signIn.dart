@@ -144,4 +144,25 @@ class SignIn {
     return Professor.fromDocument(updatedDoc);
 
   }
+
+  Future<Student> updateStudentProfile(String documentId, String studentId, String major, String mbti, String imagePath) async {
+    // Firestore 인스턴스 가져오기
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // 현재 사용자의 uid 가져오기
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    DocumentReference userDocRef = firestore.collection('user').doc(uid);
+
+    Map<String, dynamic> dataToUpdate = {
+      'studentId' : studentId,
+      'major': major,
+      'MBTI' : mbti,
+      'imagePath': imagePath,
+    };
+
+    await userDocRef.update(dataToUpdate);
+    DocumentSnapshot updatedDoc = await userDocRef.get();
+    return Student.fromDocument(updatedDoc);
+
+  }
 }
