@@ -25,7 +25,6 @@ class ProfessorSignUp extends StatefulWidget {
 class _ProfessorSignUp extends State {
   final _majorController = TextEditingController();
   final _sectionController = TextEditingController();
-  final _groupController = TextEditingController();
   final _wordController = TextEditingController();
   final _imageUploader = ImageUploader();
   XFile? _image;
@@ -44,7 +43,6 @@ class _ProfessorSignUp extends State {
                 String major = _majorController.text;
                 String word = _wordController.text;
                 String section = _sectionController.text;
-                String group = _groupController.text;
                 Professor? professor;
 
                 if(_image != null) {
@@ -55,9 +53,9 @@ class _ProfessorSignUp extends State {
                   await _imageUploader.saveImageUrlToFirestore(uploadPath!);
 
 
-                  professor = await _signIn.addProfessorCollection(major, word, section, group, uploadPath);
+                  professor = await _signIn.addProfessorCollection(major, word, section, uploadPath);
                 } else {
-                  professor = await _signIn.addProfessorCollection(major, word, section, group, "https://firebasestorage.googleapis.com/v0/b/unichat-d6dd5.appspot.com/o/uploads%2Flogo.png?alt=media&token=fcf72899-8e3c-41b1-b6d0-054fc225f8d4");
+                  professor = await _signIn.addProfessorCollection(major, word, section, "https://firebasestorage.googleapis.com/v0/b/unichat-d6dd5.appspot.com/o/uploads%2Flogo.png?alt=media&token=fcf72899-8e3c-41b1-b6d0-054fc225f8d4");
                 }
 
 
@@ -172,7 +170,7 @@ class _ProfessorSignUp extends State {
                                     decoration:
                                     const InputDecoration(hintText: "소속 학부를 입력하세요"),
                                     style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
-                                    controller: _groupController,
+                                    controller: _sectionController,
                                   )),
                             ],
                           ),
@@ -187,21 +185,6 @@ class _ProfessorSignUp extends State {
                                   const InputDecoration(hintText: "전공을 입력하세요"),
                                   style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
                                   controller: _majorController,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width *
-                                      0.025),
-                              Expanded(
-                                child: TextField(
-                                  decoration:
-                                  const InputDecoration(hintText: "관심분야를 입력하세요"),
-                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05,),
-                                  controller: _sectionController,
                                 ),
                               ),
                             ],

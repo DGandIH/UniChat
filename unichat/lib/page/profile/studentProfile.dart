@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:unichat/page/edit/studentEdit.dart';
 
 import '../../signIn/signIn.dart';
 import '../../user/student.dart';
@@ -11,40 +12,36 @@ class StudentProfile extends StatelessWidget {
 
   StudentProfile({super.key, required this.student});
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF5DB075),
-        leading: TextButton(
-            onPressed: () {
-              _signIn.signOUt();
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            )),
+        leading: IconButton(
+          icon: Icon(Icons.logout),
+          color: Colors.white,
+          onPressed: () {
+            _signIn.signOUt();
+            Navigator.pop(context);
+          },
+        ),
         actions: [
-          TextButton(
-              onPressed: () {
-                _signIn.signOUt();
-                Navigator.pop(context);
-              },
-              child: IconButton(
-                icon: Icon(Icons.edit,),
-                color: Colors.white, onPressed: () {
-                  Navigator.pushNamed(context, "/test");
-              },
-
-              ))
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+            ),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        StudentEditPage(student: student,),
+                  ));
+            },
+          )
         ],
         title: const Text(
           "학생 프로필",
@@ -99,29 +96,58 @@ class StudentProfile extends StatelessWidget {
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                           fontWeight: FontWeight.w500)),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.025,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.025,
+                  ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.08, 0, MediaQuery.of(context).size.width * 0.08, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        MediaQuery.of(context).size.width * 0.08,
+                        0,
+                        MediaQuery.of(context).size.width * 0.08,
+                        0),
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.circle, size: 20,),
-                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
-                            const Text("전공", style: TextStyle(fontSize: 20),),
+                            const Icon(
+                              Icons.circle,
+                              size: 20,
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.025),
+                            const Text(
+                              "전공",
+                              style: TextStyle(fontSize: 20),
+                            ),
                             const Spacer(),
-                            Text(student.major, style: const TextStyle(fontSize: 20),),
+                            Text(
+                              student.major,
+                              style: const TextStyle(fontSize: 20),
+                            ),
                           ],
                         ),
                         const Divider(),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05),
                         Row(
                           children: [
-                            const Icon(Icons.circle, size: 20,),
-                            SizedBox(width: MediaQuery.of(context).size.width * 0.025),
-                            const Text("MBTI", style: TextStyle(fontSize: 20),),
+                            const Icon(
+                              Icons.circle,
+                              size: 20,
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.025),
+                            const Text(
+                              "MBTI",
+                              style: TextStyle(fontSize: 20),
+                            ),
                             const Spacer(),
-                            Text(student.MBTI, style: const TextStyle(fontSize: 20),),
+                            Text(
+                              student.MBTI,
+                              style: const TextStyle(fontSize: 20),
+                            ),
                           ],
                         ),
                         const Divider(),
