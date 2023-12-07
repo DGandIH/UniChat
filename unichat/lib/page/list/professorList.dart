@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unichat/page/contact/professorProfileWithStudent.dart';
 
 import '../../user/professor.dart';
 
@@ -81,7 +82,12 @@ Widget _buildProfessorRow(BuildContext context, Professor professor) {
         ),
         IconButton(
           onPressed: () {
-            // 클릭 이벤트 처리
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ProfessorProfileWithStudent(professor: professor,),
+                ));
           },
           icon: Icon(Icons.chat, color: Color(0xFF5DB075)),
         ),

@@ -2,7 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../user/professor.dart';
+
 class StudentCalendarPage extends StatefulWidget {
+  Professor professor;
+  String studentUserId;
+
+  StudentCalendarPage({super.key, required this.professor, required this.studentUserId});
+
   @override
   _StudentCalendarPageState createState() => _StudentCalendarPageState();
 }

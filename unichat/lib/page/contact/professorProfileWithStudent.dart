@@ -1,13 +1,17 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:unichat/page/calendar/professorCalendar.dart';
 import 'package:unichat/page/calendar/studentCalendar.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 
+import '../../user/professor.dart';
+
 class ProfessorProfileWithStudent extends StatelessWidget {
-  const ProfessorProfileWithStudent({super.key});
+  Professor professor;
+  ProfessorProfileWithStudent({super.key, required this.professor});
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +22,17 @@ class ProfessorProfileWithStudent extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Color(0xFF5DB075),
         actions: [
-          TextButton(
+          IconButton(
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          ProfessorCalendarPage(),
+                          StudentCalendarPage(professor: professor, studentUserId: FirebaseAuth.instance.currentUser!.uid,),
                     ));
               },
-              child: const Icon(
-                Icons.edit,
+              icon: Icon(
+                Icons.access_alarms_sharp,
                 color: Colors.white,
               ))
         ],
@@ -57,8 +61,8 @@ class ProfessorProfileWithStudent extends StatelessWidget {
                                 height:
                                 MediaQuery.of(context).size.width * 0.45,
                                 color: Colors.white,
-                                child: const Image(
-                                  image: AssetImage("assets/logo.png"),
+                                child: Image(
+                                  image: NetworkImage(professor.imagePath),
                                 ))),
                       ),
                     ],
@@ -76,12 +80,12 @@ class ProfessorProfileWithStudent extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.025,
                   ),
                   Text(
-                    "이름",
+                    professor.name,
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.1,
                         fontWeight: FontWeight.w800),
                   ),
-                  Text("email",
+                  Text(professor.email,
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                           fontWeight: FontWeight.w500)),
@@ -96,7 +100,7 @@ class ProfessorProfileWithStudent extends StatelessWidget {
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
                             const Text("소속 학부", style: TextStyle(fontSize: 20),),
                             const Spacer(),
-                            const Text("소속 학부", style: TextStyle(fontSize: 20),),
+                            Text(professor.department, style: TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
@@ -107,7 +111,7 @@ class ProfessorProfileWithStudent extends StatelessWidget {
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
                             const Text("전공", style: TextStyle(fontSize: 20),),
                             const Spacer(),
-                            const Text("전공", style: TextStyle(fontSize: 20),),
+                            Text(professor.major, style: TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
@@ -116,9 +120,9 @@ class ProfessorProfileWithStudent extends StatelessWidget {
                           children: [
                             const Icon(Icons.circle, size: 20,),
                             SizedBox(width: MediaQuery.of(context).size.width * 0.025),
-                            const Text("관심 분야", style: TextStyle(fontSize: 20),),
+                            const Text("하고싶은 말", style: TextStyle(fontSize: 20),),
                             const Spacer(),
-                            const Text("관심 분야", style: TextStyle(fontSize: 20),),
+                            Text(professor.words, style: TextStyle(fontSize: 20),),
                           ],
                         ),
                         const Divider(),
