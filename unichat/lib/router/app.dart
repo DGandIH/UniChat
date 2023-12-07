@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           '/student/signUp' : (BuildContext context) => StudentSignUp(),
           '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
           '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
-          '/chat' : (BuildContext context) => ChatScreen(),
+          // '/chat' : (BuildContext context) => ChatScreen(),
         },
         theme: ThemeData.light(useMaterial3: true),
       );

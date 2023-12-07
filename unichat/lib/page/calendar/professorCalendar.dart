@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:unichat/page/calendar/availableTime.dart';
+import 'package:unichat/page/chat/chatScreen.dart';
 
 class ProfessorCalendarPage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
   List<String> availableTimes = [];
+  String professorId = "pdxUFz6KD0Pp5WGPwgB7isyQiZ62";
 
   @override
   void initState() {
@@ -20,25 +22,50 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
     _focusedDay = DateTime.now();
     _selectedDay = _focusedDay;
     _calendarFormat = CalendarFormat.month;
-    // _retrieveAvailableTimes();
-    _updateAvailableTimes(_selectedDay);
+    _retrieveAvailableTimes(_selectedDay, professorId); // initState에서도 호출
+    // _updateAvailableTimes(_selectedDay);
   }
 
-  _retrieveAvailableTimes() async {
-    // Firestore에서 선택된 날짜의 예약 가능한 시간을 가져옵니다.
-    var selectedDateStr = "${_selectedDay.year}-${_selectedDay.month}-${_selectedDay.day}";
-    var collection = FirebaseFirestore.instance.collection('reservations');
-    var snapshot = await collection.doc(selectedDateStr).get();
-    if (snapshot.exists && snapshot.data() != null) {
+  // _retrieveAvailableTimes(DateTime selectedDay) async {
+  //   var selectedDateStr = "${_selectedDay.year}-${_selectedDay.month}-${_selectedDay.day}";
+  //   var collection = FirebaseFirestore.instance.collection('available_times');
+  //   var snapshot = await collection.doc(selectedDateStr).get();
+  //   if (snapshot.exists && snapshot.data() != null) {
+  //     setState(() {
+  //       availableTimes = List<String>.from(snapshot.data()!['times']);
+  //     });
+  //   } else {
+  //     setState(() {
+  //       availableTimes = [];
+  //     });
+  //   }
+  // }
+
+  _retrieveAvailableTimes(DateTime selectedDay, String uid) async {
+    // 선택된 날짜를 문자열로 변환합니다.
+    var selectedDateStr = "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+    // Firestore의 'available_times' 컬렉션을 참조합니다.
+    var collection = FirebaseFirestore.instance.collection('available_times');
+    // 선택된 날짜의 문서 ID를 사용하여 Firestore에서 데이터를 검색합니다.
+    var snapshot = await collection
+        .where('date', isEqualTo: selectedDateStr)
+        .where('uid', isEqualTo: uid)
+        .get();
+    // 스냅샷에 데이터가 있으면 해당 데이터로 availableTimes를 업데이트합니다.
+    if (snapshot.docs.isNotEmpty) {
       setState(() {
-        availableTimes = List<String>.from(snapshot.data()!['times']);
+        // 가져온 문서들에서 'time' 필드의 값을 추출하여 availableTimes 리스트에 추가합니다.
+        availableTimes = snapshot.docs
+            .map((doc) => doc.data()['time'] as String)
+            .toList();
       });
     } else {
       setState(() {
-        availableTimes = [];
+        availableTimes = []; // 데이터가 없으면 빈 리스트로 설정합니다.
       });
     }
   }
+
 
   void _updateAvailableTimes(DateTime date) {
     // 여기에 더미 데이터를 정의합니다.
@@ -106,8 +133,9 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
               });
+              _retrieveAvailableTimes(selectedDay, professorId); // 여기서 함수 호출
               // _retrieveAvailableTimes();
-              _updateAvailableTimes(selectedDay);
+              // _updateAvailableTimes(selectedDay);
             },
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
@@ -132,10 +160,17 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
                     //   MaterialPageRoute(
                     //     builder: (context) => ReservationDetailsPage(
                     //       selectedDate: _selectedDay,
-                    //       selectedTime: availableTimes[index],
+                    //       selectedTime: availableTimes[index
                     //     ),
                     //   ),
                     // );
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(professorId: professorId),
+                      ),
+                    );
+
                     print("${_selectedDay}\n");
                     print("${availableTimes[index]}\n");
                   },
