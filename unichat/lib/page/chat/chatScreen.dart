@@ -5,7 +5,8 @@ import 'package:unichat/page/chat/message.dart';
 import 'package:unichat/page/chat/newMessage.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  final String professorId;
+  const ChatScreen({Key? key, required this.professorId}) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
