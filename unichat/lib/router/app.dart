@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           '/student/login' : (BuildContext context) => StudentLoginPage(),
           '/test' : (BuildContext context) => const ProfessorList(),
           // '/professor/student' : (BuildContext context) => const ProfessorProfileWithStudent(),
-          '/reservation/student' : (BuildContext context) => const StudentReservation(),
+          // '/reservation/student' : (BuildContext context) => const StudentReservation(),
           '/student/signUp' : (BuildContext context) => StudentSignUp(),
           // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
           // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
