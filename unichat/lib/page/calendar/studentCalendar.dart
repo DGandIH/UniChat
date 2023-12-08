@@ -162,13 +162,15 @@ class _StudentCalendarPageState extends State<StudentCalendarPage>  {
                     await FirebaseFirestore.instance.collection('chat').add({
                       'professorId': widget.professor.uid,
                       'studentId': widget.studentUserId,
+                      'date': selectedDateStr, // 날짜를 문자열로 변환
+                      'time': availableTimes[index], // 선택된 시간
                     });
 
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ChatScreen(professorId: widget.professor.uid, studentId: widget.studentUserId),
+                              ChatScreen(professorId: widget.professor.uid, studentId: widget.studentUserId, time: availableTimes[index], date: selectedDateStr),
                         ));
                     print("${_selectedDay}\n");
                     print("${availableTimes[index]}\n");
