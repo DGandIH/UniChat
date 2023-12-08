@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           '/reservation/student' : (BuildContext context) => const StudentReservation(),
           '/student/signUp' : (BuildContext context) => StudentSignUp(),
           // '/student/calendar' : (BuildContext context) => StudentCalendarPage(),
-          '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
+          // '/professor/calendar' : (BuildContext context) => ProfessorCalendarPage(),
           // '/chat' : (BuildContext context) => ChatScreen(),
         },
         theme: ThemeData.light(useMaterial3: true),
