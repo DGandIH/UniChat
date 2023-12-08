@@ -83,26 +83,6 @@ class StudentLoginPage extends StatelessWidget {
                 MaterialStateProperty.all(const Color(0xFF5DB075)),
               ),
             ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  // signInWithGoogle 함수를 호출하여 로그인 시도
-                  UserCredential userCredential =
-                  await _signIn.signInAnonymously();
-                  // _signIn.addUserCollection();
-                } on FirebaseAuthException catch (e) {
-                  print("error");
-                }
-              },
-              child: Text(
-                'Guest',
-                style: TextStyle(color: Colors.black),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-              ),
-            ),
           ],
         ),
       ),

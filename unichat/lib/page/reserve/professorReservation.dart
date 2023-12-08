@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfessorReservation extends StatelessWidget {
-  const ProfessorReservation({super.key});
+  String professorUserId;
+  ProfessorReservation({super.key, required this.professorUserId});
 
   @override
   Widget build(BuildContext context) {

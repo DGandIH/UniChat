@@ -46,11 +46,14 @@ class _ProfessorSwipePagesState extends State<ProfessorSwipePages> {
                   ProfessorProfile(professor: professor),
                   MapPage(),
                   ProfessorList(),
-                  StudentReservation()
                 ],
                 onPageChanged: (int page) {
                   setState(() {
-                    _currentPage = page;
+                    if (mounted) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    }
                   });
 
                   print("Current Page: $page");
