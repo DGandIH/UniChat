@@ -4,7 +4,12 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:unichat/page/calendar/availableTime.dart';
 import 'package:unichat/page/chat/chatScreen.dart';
 
+import '../../user/professor.dart';
+
 class ProfessorCalendarPage extends StatefulWidget {
+  Professor professor;
+
+  ProfessorCalendarPage({super.key, required this.professor});
   @override
   _ProfessorCalendarPageState createState() => _ProfessorCalendarPageState();
 }
