@@ -1,10 +1,22 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StudentReservation extends StatelessWidget {
   const StudentReservation({super.key});
+
+  final String studentId = "pdxUFz6KD0Pp5WGPwgB7isyQiZ62";
+
+  Stream<List<String>> getProfessorIds() {
+    return FirebaseFirestore.instance
+        .collection('chat')
+        .where('studentId', isEqualTo: studentId)
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) => doc['professorId'] as String).toList());
+  }
 
   @override
   Widget build(BuildContext context) {

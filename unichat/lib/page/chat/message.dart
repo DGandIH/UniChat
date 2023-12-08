@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unichat/page/chat/chat.dart';
 
 class Messages extends StatelessWidget {
-  const Messages({super.key});
+  final String professorId;
+  final String studentId;
+  const Messages({Key? key, required this.professorId, required this.studentId }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,10 @@ class Messages extends StatelessWidget {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('chat')
-            .orderBy('time', descending: true)
+            .where('professorId', isEqualTo: professorId)
+            .where('studentId', isEqualTo: studentId)
+            .limit(1)
+            // .orderBy('time', descending: true)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -20,18 +25,30 @@ class Messages extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          final chatDocs = snapshot.data!.docs;
+
+          final docData = snapshot.data!.docs.first.data();
+          final messages = docData['messages'] as List<dynamic>? ?? [];
+
+          if (messages.isNotEmpty) {
+            messages.sort((a, b) {
+              var aTime = a['time'];
+              var bTime = b['time'];
+              if (aTime is Timestamp && bTime is Timestamp) {
+                return bTime.compareTo(aTime);
+              }
+              return 0;
+            });
+          }
 
           return ListView.builder(
             reverse: true,
-            itemCount: chatDocs.length,
+            itemCount: messages.length,
             itemBuilder: (context, index) {
-                return Chat(
-                  chatDocs[index]['text'],
-                  // chatDocs[index]['uid'].toString() == user!.uid
-                    chatDocs[index]['uid'].toString() == 'LeeInhyeokId',
-                    chatDocs[index]['userName']
-                );
+              var message = messages[index];
+              return Chat(
+                message['text'] ?? '',
+                message['uid'] == studentId,
+              );
             }
           );
         },

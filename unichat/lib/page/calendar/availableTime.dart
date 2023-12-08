@@ -14,6 +14,7 @@ class _AvailableTimeFormState extends State<AvailableTimeForm> {
   String? _selectedTimeStr;
   List<String> availableTimes = [];
   List<String> reservedTimes = [];
+  String professorId = "GsH3lb2LhWSXzojEGTvF7EA3XCB2";
 
   @override
   void initState() {
@@ -49,19 +50,16 @@ class _AvailableTimeFormState extends State<AvailableTimeForm> {
 
   Future<void> _loadAvailableTimes() async {
     var selectedDateStr = "${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}";
-    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
+    // String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
+
     var availableTimesCollection = FirebaseFirestore.instance.collection('available_times');
 
-    var querySnapshot = await availableTimesCollection.where('uid', isEqualTo: currentUserId).get();
+    // var querySnapshot = await availableTimesCollection.where('uid', isEqualTo: currentUserId).get();
+    var querySnapshot = await availableTimesCollection.where('uid', isEqualTo: professorId).get();
     var userReservedTimes = querySnapshot.docs
         .where((doc) => doc.data()['date'] == selectedDateStr)
         .map((doc) => doc.data()['time'])
         .toList();
-
-    print("userReservedTimes");
-    print(userReservedTimes);
-    print("availableTimes");
-    print(availableTimes);
 
     setState(() {
       availableTimes = availableTimes.where((time) => !userReservedTimes.contains(time)).toList();
@@ -120,7 +118,7 @@ class _AvailableTimeFormState extends State<AvailableTimeForm> {
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate;
-        _loadAvailableTimes(); // 날짜가 변경되면 예약된 시간을 다시 읽어옵니다.
+        _loadAvailableTimes();
       });
     }
   }

@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:unichat/page/map/location.dart';
+import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/user/student.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Completer<GoogleMapController> _controller = Completer();
   UserLocation userLocation = UserLocation();
+  late String userId;
   static final CameraPosition _kGoogle = const CameraPosition(
     target: LatLng(36.104073990218616, 129.38877917711773),
     zoom: 14.4746,
@@ -36,6 +40,7 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     initializeLocation();
+    userId = FirebaseAuth.instance.currentUser!.uid;
   }
 
   Future<void> initializeLocation() async {
@@ -44,17 +49,17 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> getCurrentLocationAndSave() async {
-    print("들어옴");
+
     try {
       final position = await geo.Geolocator.getCurrentPosition();
       // final locationData = LocationData.fromMap({
       //   'latitude': position.latitude,
       //   'longitude': position.longitude
       // });
-      userLocation.saveUserLocation(position.latitude, position.longitude, "LeeInhyeok");
-      userLocation.saveUserLocation(36.10221, 129.38808, "KimDongkyu");
-      userLocation.saveUserLocation(36.101929, 129.391449, "LeeDabin");
-      userLocation.saveUserLocation(35.986752, 129.421242, "SoByungchan");
+      userLocation.saveUserLocation(position.latitude, position.longitude, userId);
+      // userLocation.saveUserLocation(36.10221, 129.38808, "GsH3lb2LhWSXzojEGTvF7EA3XCB2");
+      // userLocation.saveUserLocation(36.101929, 129.391449, "LeeDabin");
+      // userLocation.saveUserLocation(35.986752, 129.421242, "SoByungchan");
 
       final marker = Marker(
         markerId: MarkerId("currentLocation"),
@@ -80,32 +85,59 @@ class _MapPageState extends State<MapPage> {
     return await geo.Geolocator.getCurrentPosition();
   }
 
+  Future<Map<String, dynamic>> getUserInfo(String uid) async {
+    var userDocument = await FirebaseFirestore.instance.collection('user').doc(uid).get();
+    return userDocument.data() ?? {};
+  }
+
   Future<void> displayNearbyUsers() async {
     final currentPosition = await geo.Geolocator.getCurrentPosition();
 
     final userLocationsStream = userLocation.getNearbyUsers(
         currentPosition.latitude, currentPosition.longitude, 5);
 
-    userLocationsStream.listen((List<DocumentSnapshot> documentList) {
-      setState(() {
-        _markers.clear();
-        for (var document in documentList) {
-          final data = document.data() as Map<String, dynamic>?;
-          if (data != null) {
-            final geoPoint = data['position']['geopoint'];
-            if (geoPoint != null) {
-              final marker = Marker(
+    userLocationsStream.listen((List<DocumentSnapshot> documentList) async {
+      var newMarkers = <Marker>[];
+      for (var document in documentList) {
+        final data = document.data() as Map<String, dynamic>?;
+        print(data);
+        if (data != null) {
+          final geoPoint = data['position']['geopoint'];
+          if (geoPoint != null) {
+            print(document.id);
+            Map<String, dynamic> userInfo = await getUserInfo(document.id);
+            Student student = Student.fromMap(userInfo);
+
+            final marker = Marker(
                 markerId: MarkerId(document.id),
                 position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                infoWindow: InfoWindow(title:'유저 위치'),
-              );
-              _markers.add(marker);
-            }
+                infoWindow: InfoWindow(
+                  title: userInfo['name'],
+                  snippet: 'Email: ${userInfo['email']}',
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HeroControllerScope(
+                        controller: HeroController(),
+                        child: StudentProfile(student: student),
+                      ),
+                    ),
+                  );
+                }
+            );
+            newMarkers.add(marker);
           }
         }
+      }
+      setState(() {
+        _markers.clear();
+        _markers.addAll(newMarkers);
       });
     });
   }
+
 
 
   // void addUserMarkers() async {
@@ -127,6 +159,7 @@ class _MapPageState extends State<MapPage> {
   //     );
   //   });
   // }
+
 
   Future<void> _zoomIn() async {
     final GoogleMapController controller = await _controller.future;
@@ -159,6 +192,9 @@ class _MapPageState extends State<MapPage> {
             onMapCreated: (GoogleMapController controller){
               _controller.complete(controller);
             },
+            onTap: (LatLng position) {
+
+            },
             zoomControlsEnabled: true,
           ),
         ),
@@ -167,18 +203,21 @@ class _MapPageState extends State<MapPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
+            heroTag: 'uniqueTag1',
             onPressed: _zoomIn,
             tooltip: 'Zoom In',
             child: Icon(Icons.zoom_in),
           ),
           SizedBox(height: 16),
           FloatingActionButton(
+            heroTag: 'uniqueTag2',
             onPressed: _zoomOut,
             tooltip: 'Zoom Out',
             child: Icon(Icons.zoom_out),
           ),
           SizedBox(height: 16),
           FloatingActionButton(
+            heroTag: 'uniqueTag3',
             onPressed: () async {
               getUserCurrentLocation().then((value) async {
                 // print(value.latitude.toString() +" "+value.longitude.toString());
