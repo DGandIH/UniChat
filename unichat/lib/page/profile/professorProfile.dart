@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unichat/page/calendar/professorCalendar.dart';
 import 'package:unichat/page/edit/professorEdit.dart';
 
 import '../../signIn/signIn.dart';
@@ -173,6 +174,14 @@ class ProfessorProfile extends StatelessWidget {
                           ],
                         ),
                         const Divider(),
+                        TextButton(onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfessorCalendarPage(professor: professor,),
+                              ));
+                        }, child: Text("캘린더 설정하기", style: TextStyle(fontSize: 20),))
                       ],
                     ),
                   ),
