@@ -170,11 +170,12 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
                     //   ),
                     // );
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(professorId: professorId),
-                      ),
-                    );
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) =>
+                    //           // ChatScreen(professorId: professorId),
+                    //     ));
 
                     print("${_selectedDay}\n");
                     print("${availableTimes[index]}\n");

@@ -4,10 +4,9 @@ import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_8.dart';
 
 class Chat extends StatelessWidget {
-  const Chat(this.message, this.isMe, this.userName, {Key? key}) : super(key: key);
+  const Chat(this.message, this.isMe, {Key? key}) : super(key: key);
 
   final String message;
-  final String userName;
   final bool isMe;
 
   @override
@@ -31,12 +30,6 @@ class Chat extends StatelessWidget {
                   crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white
-                      ),
-                    ),
-                    Text(
                       message,
                       style: TextStyle(color: Colors.white),
                     ),
@@ -59,12 +52,6 @@ class Chat extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      userName,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black
-                      ),
-                    ),
                     Text(
                       message,
                       style: TextStyle(color: Colors.black),

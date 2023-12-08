@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unichat/page/list/professorList.dart';
 import 'package:unichat/page/profile/professorProfile.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/page/reserve/professorReservation.dart';
 import 'package:unichat/page/reserve/studentReservation.dart';
 import 'package:unichat/user/professor.dart';
 
@@ -46,6 +47,7 @@ class _ProfessorSwipePagesState extends State<ProfessorSwipePages> {
                   ProfessorProfile(professor: professor),
                   MapPage(),
                   ProfessorList(),
+                  ProfessorReservation(professorUserId: professor.uid,)
                 ],
                 onPageChanged: (int page) {
                   setState(() {

@@ -1,6 +1,9 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unichat/reserveUser/reserveUser.dart';
 
 import '../../user/professor.dart';
 
@@ -9,8 +12,21 @@ class StudentReservation extends StatelessWidget {
 
   StudentReservation({super.key, required this.studentId});
 
+  // final String studentId = "pdxUFz6KD0Pp5WGPwgB7isyQiZ62";
+
+  Stream<List<String>> getProfessorIds() {
+    return FirebaseFirestore.instance
+        .collection('chat')
+        .where('studentId', isEqualTo: studentId)
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map((doc) => doc['professorId'] as String).toList());
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(studentId);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -54,7 +70,7 @@ class StudentReservation extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.025,
         ),
         Expanded(
-          child: FutureBuilder<List<Professor>>(
+          child: FutureBuilder<List<ReserveUser>>(
             future: getChatsForProfessor(studentId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -80,7 +96,7 @@ class StudentReservation extends StatelessWidget {
   }
 }
 
-Widget _buildStudentRow(BuildContext context, Professor professor) {
+Widget _buildStudentRow(BuildContext context, ReserveUser professor) {
   // 교수 정보를 Row 위젯으로 표시
   return Padding(
     padding: EdgeInsets.all(8.0),
@@ -92,7 +108,7 @@ Widget _buildStudentRow(BuildContext context, Professor professor) {
             children: [
               Text(professor.name,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              Text(professor.words),
+              Text(professor.date + " " + professor.time),
             ],
           ),
         ),
@@ -113,13 +129,13 @@ Widget _buildStudentRow(BuildContext context, Professor professor) {
   );
 }
 
-Future<List<Professor>> getChatsForProfessor(String userId) async {
+Future<List<ReserveUser>> getChatsForProfessor(String userId) async {
   QuerySnapshot chatQuerySnapshot = await FirebaseFirestore.instance
       .collection('chat')
       .where('studentId', isEqualTo: userId)
       .get();
 
-  List<Professor> professors = [];
+  List<ReserveUser> professors = [];
 
   for (var chatDoc in chatQuerySnapshot.docs) {
     print("!@#");
@@ -131,10 +147,11 @@ Future<List<Professor>> getChatsForProfessor(String userId) async {
         .collection('professor')
         .doc(professorUserId)
         .get(); // 해당 userId를 가진 professor의 정보 조회
+    Map<String, dynamic> data = professorDoc.data() as Map<String, dynamic>;
 
     if (professorDoc.exists) {
       professors
-          .add(Professor.fromDocument(professorDoc)); // 조회된 정보로 Professor 객체 생성
+          .add(ReserveUser(userId, professorUserId, chatData['date'], chatData['time'], data['name'])); // 조회된 정보로 Professor 객체 생성
     }
   }
 
