@@ -170,7 +170,8 @@ class _StudentCalendarPageState extends State<StudentCalendarPage>  {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ChatScreen(professorId: widget.professor.uid, studentId: widget.studentUserId, time: availableTimes[index], date: selectedDateStr),
+                              ChatScreen(targetId: widget.professor.uid, curId: widget.studentUserId, time: availableTimes[index], date: selectedDateStr, professorId: widget.professor.uid,
+                              studentId: widget.studentUserId),
                         )
                     );
                     print("${_selectedDay}\n");

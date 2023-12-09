@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NewMessage extends StatefulWidget {
-  final String professorId;
-  final String studentId;
+  final String curId;
+  final String targetId;
   final String time;
   final String date;
-  const NewMessage({Key? key, required this.professorId, required this.studentId, required this.time, required this.date}) : super(key: key);
+  final String professorId;
+  final String studentId;
+  const NewMessage({Key? key, required this.curId, required this.targetId, required this.time, required this.date, required this.professorId, required this.studentId}) : super(key: key);
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -23,16 +25,18 @@ class _NewMessageState extends State<NewMessage> {
     _controller.clear();
     // final user = FirebaseAuth.instance.currentUser;
 
-    final String uid = widget.studentId;
-    final String professorId = widget.professorId;
+    final String curId = widget.curId;
+    final String targetId = widget.targetId;
     final String time = widget.time;
     final String date = widget.date;
+    final String professorId = widget.professorId;
+    final String studentId = widget.studentId;
 
     var chatRef = FirebaseFirestore.instance.collection('chat');
 
     var querySnapshot = await chatRef
         .where('professorId', isEqualTo: professorId)
-        .where('studentId', isEqualTo: uid)
+        .where('studentId', isEqualTo: studentId)
         .where('time', isEqualTo: time)
         .where('date', isEqualTo: date)
         .limit(1)
@@ -41,15 +45,15 @@ class _NewMessageState extends State<NewMessage> {
     if (querySnapshot.docs.isEmpty) {
       // 일치하는 문서가 없으면 새로운 문서를 생성합니다.
       await chatRef.add({
-        'professorId': professorId,
-        'studentId': uid,
+        'professorId': targetId,
+        'studentId': curId,
         'time': time,
         'date': date,
         'messages': [
           {
             'text': _userEnterMessage,
             'time': Timestamp.now(),
-            'uid': uid,
+            'uid': curId,
           },
         ],
       });
@@ -61,7 +65,7 @@ class _NewMessageState extends State<NewMessage> {
           {
             'text': _userEnterMessage,
             'time': Timestamp.now(),
-            'uid': uid,
+            'uid': curId,
           },
         ]),
       });
