@@ -5,11 +5,13 @@
   import 'package:unichat/page/chat/newMessage.dart';
 
   class ChatScreen extends StatefulWidget {
-    final String professorId;
-    final String studentId;
+    final String curId;
+    final String targetId;
     final String time;
     final String date;
-    const ChatScreen({Key? key, required this.professorId, required this.studentId, required this.time, required this.date}) : super(key: key);
+    final String professorId;
+    final String studentId;
+    const ChatScreen({Key? key, required this.curId, required this.targetId, required this.time, required this.date, required this.professorId, required this.studentId}) : super(key: key);
 
     @override
     _ChatScreenState createState() => _ChatScreenState();
@@ -60,9 +62,9 @@
           child: Column(
             children: [
               Expanded(
-                  child: Messages(professorId: widget.professorId, studentId: widget.studentId, time: widget.time, date: widget.date)
+                  child: Messages(curId: widget.curId, targetId: widget.targetId, time: widget.time, date: widget.date, professorId: widget.professorId, studentId: widget.studentId)
               ),
-              NewMessage(professorId: widget.professorId, studentId: widget.studentId, time: widget.time, date: widget.date),
+              NewMessage(curId: widget.curId, targetId: widget.targetId, time: widget.time, date: widget.date, professorId: widget.professorId, studentId: widget.studentId),
             ],
           )
         )
