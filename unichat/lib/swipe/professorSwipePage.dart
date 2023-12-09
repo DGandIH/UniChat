@@ -7,6 +7,7 @@ import 'package:unichat/page/reserve/studentReservation.dart';
 import 'package:unichat/user/professor.dart';
 
 import '../page/map/map.dart';
+import '../page/map/professorMap.dart';
 import '../user/student.dart';
 
 class ProfessorSwipePages extends StatefulWidget {
@@ -45,7 +46,7 @@ class _ProfessorSwipePagesState extends State<ProfessorSwipePages> {
                 controller: _controller,
                 children: <Widget>[
                   ProfessorProfile(professor: professor),
-                  MapPage(),
+                  ProfessorMapPage(),
                   ProfessorReservation(professorUserId: professor.uid,)
                 ],
                 onPageChanged: (int page) {

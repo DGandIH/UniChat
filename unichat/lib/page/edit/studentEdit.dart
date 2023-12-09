@@ -67,7 +67,7 @@ class _StudentEditState extends State {
                 String major = _majorController.text;
                 String mbti = _mbtiController.text;
                 String studentId = _studentIdController.text;
-                Student? student;
+                Student? newStudent;
 
                 if(_image != null) {
                   Future<String?> path =
@@ -77,9 +77,9 @@ class _StudentEditState extends State {
                   await _imageUploader.saveImageUrlToFirestore(uploadPath!);
 
 
-                  student = await _signIn.updateStudentProfile(FirebaseAuth.instance.currentUser!.uid, studentId, major, mbti, uploadPath);
+                  newStudent = await _signIn.updateStudentProfile(FirebaseAuth.instance.currentUser!.uid, studentId, major, mbti, uploadPath);
                 } else {
-                  student = await _signIn.updateStudentProfile(FirebaseAuth.instance.currentUser!.uid, studentId, major, mbti, student!.imagePath);
+                  newStudent = await _signIn.updateStudentProfile(FirebaseAuth.instance.currentUser!.uid, studentId, major, mbti, student!.imagePath);
                 }
 
                 if(student != null) {
@@ -87,7 +87,7 @@ class _StudentEditState extends State {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            StudentSwipePages(student!),
+                            StudentSwipePages(newStudent!),
                       ));
                 }
 
@@ -98,7 +98,7 @@ class _StudentEditState extends State {
               )),
         ],
         title: const Text(
-          "교수님 프로필",
+          "학생 프로필",
           style: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         ),

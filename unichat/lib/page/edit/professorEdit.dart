@@ -65,7 +65,7 @@ class _ProfessorEditState extends State {
                 String major = _majorController.text;
                 String word = _wordController.text;
                 String section = _sectionController.text;
-                Professor? professor;
+                Professor? newProfessor;
 
                 if(_image != null) {
                   Future<String?> path =
@@ -75,9 +75,9 @@ class _ProfessorEditState extends State {
                   await _imageUploader.saveImageUrlToFirestore(uploadPath!);
 
 
-                  professor = await _signIn.updateProfessorProfile(FirebaseAuth.instance.currentUser!.uid, major, word, section, uploadPath);
+                  newProfessor = await _signIn.updateProfessorProfile(FirebaseAuth.instance.currentUser!.uid, major, word, section, uploadPath);
                 } else {
-                  professor = await _signIn.updateProfessorProfile(FirebaseAuth.instance.currentUser!.uid, major, word, section, professor!.imagePath);
+                  newProfessor = await _signIn.updateProfessorProfile(FirebaseAuth.instance.currentUser!.uid, major, word, section, professor!.imagePath);
                 }
 
                 if(professor != null) {
@@ -85,7 +85,7 @@ class _ProfessorEditState extends State {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ProfessorSwipePages(professor!),
+                            ProfessorSwipePages(newProfessor!),
                       ));
                 }
 
