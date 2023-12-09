@@ -46,7 +46,6 @@ class _ProfessorSwipePagesState extends State<ProfessorSwipePages> {
                 children: <Widget>[
                   ProfessorProfile(professor: professor),
                   MapPage(),
-                  ProfessorList(),
                   ProfessorReservation(professorUserId: professor.uid,)
                 ],
                 onPageChanged: (int page) {
@@ -68,7 +67,7 @@ class _ProfessorSwipePagesState extends State<ProfessorSwipePages> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 // 가로축의 중앙에 위치시키기 위해 추가
                 children: List<Widget>.generate(
-                  4, // 전체 페이지 수
+                  3, // 전체 페이지 수
                   (int index) => AnimatedContainer(
                     duration: Duration(milliseconds: 300),
                     height: 10,
