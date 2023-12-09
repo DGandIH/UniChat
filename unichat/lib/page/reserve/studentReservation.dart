@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unichat/page/chat/chatScreen.dart';
 import 'package:unichat/reserveUser/reserveUser.dart';
 
 import '../../user/professor.dart';
@@ -114,6 +115,13 @@ Widget _buildStudentRow(BuildContext context, ReserveUser professor) {
         ),
         IconButton(
           onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ChatScreen(professorId: professor.professorId, studentId: professor.studentId, time: professor.time, date: professor.date),
+                )
+            );
             // 여기서 chat으로 넘어가야 해용
             // Navigator.push(
             //     context,

@@ -7,7 +7,9 @@
   class ChatScreen extends StatefulWidget {
     final String professorId;
     final String studentId;
-    const ChatScreen({Key? key, required this.professorId, required this.studentId }) : super(key: key);
+    final String time;
+    final String date;
+    const ChatScreen({Key? key, required this.professorId, required this.studentId, required this.time, required this.date}) : super(key: key);
 
     @override
     _ChatScreenState createState() => _ChatScreenState();
@@ -58,9 +60,9 @@
           child: Column(
             children: [
               Expanded(
-                  child: Messages(professorId: widget.professorId, studentId: widget.studentId)
+                  child: Messages(professorId: widget.professorId, studentId: widget.studentId, time: widget.time, date: widget.date)
               ),
-              NewMessage(professorId: widget.professorId, studentId: widget.studentId),
+              NewMessage(professorId: widget.professorId, studentId: widget.studentId, time: widget.time, date: widget.date),
             ],
           )
         )

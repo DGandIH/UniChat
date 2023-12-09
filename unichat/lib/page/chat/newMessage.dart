@@ -5,7 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class NewMessage extends StatefulWidget {
   final String professorId;
   final String studentId;
-  const NewMessage({Key? key, required this.professorId, required this.studentId }) : super(key: key);
+  final String time;
+  final String date;
+  const NewMessage({Key? key, required this.professorId, required this.studentId, required this.time, required this.date}) : super(key: key);
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -23,12 +25,16 @@ class _NewMessageState extends State<NewMessage> {
 
     final String uid = widget.studentId;
     final String professorId = widget.professorId;
+    final String time = widget.time;
+    final String date = widget.date;
 
     var chatRef = FirebaseFirestore.instance.collection('chat');
 
     var querySnapshot = await chatRef
         .where('professorId', isEqualTo: professorId)
         .where('studentId', isEqualTo: uid)
+        .where('time', isEqualTo: time)
+        .where('date', isEqualTo: date)
         .limit(1)
         .get();
 
@@ -37,6 +43,8 @@ class _NewMessageState extends State<NewMessage> {
       await chatRef.add({
         'professorId': professorId,
         'studentId': uid,
+        'time': time,
+        'date': date,
         'messages': [
           {
             'text': _userEnterMessage,

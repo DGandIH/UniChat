@@ -89,7 +89,7 @@ Widget _buildProfessorRow(BuildContext context, Professor professor) {
                       ProfessorProfileWithStudent(professor: professor,),
                 ));
           },
-          icon: Icon(Icons.chat, color: Color(0xFF5DB075)),
+          icon: Icon(Icons.person, color: Color(0xFF5DB075)),
         ),
       ],
     ),

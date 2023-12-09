@@ -6,7 +6,9 @@ import 'package:unichat/page/chat/chat.dart';
 class Messages extends StatelessWidget {
   final String professorId;
   final String studentId;
-  const Messages({Key? key, required this.professorId, required this.studentId }) : super(key: key);
+  final String time;
+  final String date;
+  const Messages({Key? key, required this.professorId, required this.studentId, required this.time, required this.date}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +18,10 @@ class Messages extends StatelessWidget {
             .collection('chat')
             .where('professorId', isEqualTo: professorId)
             .where('studentId', isEqualTo: studentId)
+            .where('date', isEqualTo: date)
+            .where('time', isEqualTo: time)
             .limit(1)
-            // .orderBy('time', descending: true)
+
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
