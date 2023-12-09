@@ -19,7 +19,6 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
   late DateTime _focusedDay;
   late DateTime _selectedDay;
   List<String> availableTimes = [];
-  String professorId = "pdxUFz6KD0Pp5WGPwgB7isyQiZ62";
 
   @override
   void initState() {
@@ -27,7 +26,7 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
     _focusedDay = DateTime.now();
     _selectedDay = _focusedDay;
     _calendarFormat = CalendarFormat.month;
-    _retrieveAvailableTimes(_selectedDay, professorId); // initState에서도 호출
+    _retrieveAvailableTimes(_selectedDay, widget.professor.uid); // initState에서도 호출
     // _updateAvailableTimes(_selectedDay);
   }
 
@@ -138,7 +137,7 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
               });
-              _retrieveAvailableTimes(selectedDay, professorId); // 여기서 함수 호출
+              _retrieveAvailableTimes(selectedDay, widget.professor.uid); // 여기서 함수 호출
               // _retrieveAvailableTimes();
               // _updateAvailableTimes(selectedDay);
             },
@@ -177,8 +176,8 @@ class _ProfessorCalendarPageState extends State<ProfessorCalendarPage> {
                     //           // ChatScreen(professorId: professorId),
                     //     ));
 
-                    print("${_selectedDay}\n");
-                    print("${availableTimes[index]}\n");
+                    // print("${_selectedDay}\n");
+                    // print("${availableTimes[index]}\n");
                   },
                 );
               },
