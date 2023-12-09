@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:unichat/page/map/location.dart';
 import 'package:unichat/page/profile/studentProfile.dart';
+import 'package:unichat/page/profile/studentProfileView.dart';
 import 'package:unichat/user/student.dart';
 
 class MapPage extends StatefulWidget {
@@ -36,6 +37,8 @@ class _MapPageState extends State<MapPage> {
     ),
   ];
 
+  StreamSubscription? _userLocationSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -49,17 +52,9 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> getCurrentLocationAndSave() async {
-
     try {
       final position = await geo.Geolocator.getCurrentPosition();
-      // final locationData = LocationData.fromMap({
-      //   'latitude': position.latitude,
-      //   'longitude': position.longitude
-      // });
       userLocation.saveUserLocation(position.latitude, position.longitude, userId);
-      // userLocation.saveUserLocation(36.10221, 129.38808, "GsH3lb2LhWSXzojEGTvF7EA3XCB2");
-      // userLocation.saveUserLocation(36.101929, 129.391449, "LeeDabin");
-      // userLocation.saveUserLocation(35.986752, 129.421242, "SoByungchan");
 
       final marker = Marker(
         markerId: MarkerId("currentLocation"),
@@ -91,51 +86,56 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> displayNearbyUsers() async {
-    final currentPosition = await geo.Geolocator.getCurrentPosition();
+    try {
+      final currentPosition = await geo.Geolocator.getCurrentPosition();
+      final userLocationsStream = userLocation.getNearbyUsers(
+          currentPosition.latitude, currentPosition.longitude, 5);
 
-    final userLocationsStream = userLocation.getNearbyUsers(
-        currentPosition.latitude, currentPosition.longitude, 5);
+      _userLocationSubscription?.cancel();
 
-    userLocationsStream.listen((List<DocumentSnapshot> documentList) async {
-      var newMarkers = <Marker>[];
-      for (var document in documentList) {
-        final data = document.data() as Map<String, dynamic>?;
-        print(data);
-        if (data != null) {
-          final geoPoint = data['position']['geopoint'];
-          if (geoPoint != null) {
-            print(document.id);
-            Map<String, dynamic> userInfo = await getUserInfo(document.id);
-            Student student = Student.fromMap(userInfo);
+      _userLocationSubscription = userLocationsStream.listen((List<DocumentSnapshot> documentList) async {
+        var newMarkers = <Marker>[];
+        for (var document in documentList) {
+          final data = document.data() as Map<String, dynamic>?;
+          if (data != null) {
+            final geoPoint = data['position']['geopoint'];
+            if (geoPoint != null) {
+              Map<String, dynamic> userInfo = await getUserInfo(document.id);
+              Student student = Student.fromMap(userInfo);
 
-            final marker = Marker(
-                markerId: MarkerId(document.id),
-                position: LatLng(geoPoint.latitude, geoPoint.longitude),
-                infoWindow: InfoWindow(
-                  title: userInfo['name'],
-                  snippet: 'Email: ${userInfo['email']}',
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HeroControllerScope(
-                        controller: HeroController(),
-                        child: StudentProfile(student: student),
+              final marker = Marker(
+                  markerId: MarkerId(document.id),
+                  position: LatLng(geoPoint.latitude, geoPoint.longitude),
+                  infoWindow: InfoWindow(
+                    title: userInfo['name'],
+                    snippet: 'Email: ${userInfo['email']}',
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HeroControllerScope(
+                          controller: HeroController(),
+                          child: StudentProfileView(student: student),
+                        ),
                       ),
-                    ),
-                  );
-                }
-            );
-            newMarkers.add(marker);
+                    );
+                  }
+              );
+              newMarkers.add(marker);
+            }
           }
         }
-      }
-      setState(() {
-        _markers.clear();
-        _markers.addAll(newMarkers);
+
+        if (this.mounted) {
+          setState(() {
+            _markers.addAll(newMarkers);
+          });
+        }
       });
-    });
+    } catch (e) {
+      print('주변 사용자를 불러오는 중 에러 발생: $e');
+    }
   }
 
 
@@ -159,7 +159,11 @@ class _MapPageState extends State<MapPage> {
   //     );
   //   });
   // }
-
+  @override
+  void dispose() {
+    _userLocationSubscription?.cancel(); // 스트림 구독 취소
+    super.dispose();
+  }
 
   Future<void> _zoomIn() async {
     final GoogleMapController controller = await _controller.future;

@@ -174,8 +174,7 @@ class _StudentCalendarPageState extends State<StudentCalendarPage>  {
                               studentId: widget.studentUserId),
                         )
                     );
-                    print("${_selectedDay}\n");
-                    print("${availableTimes[index]}\n");
+
                   },
                 );
               },

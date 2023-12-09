@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +59,7 @@ class StudentReservation extends StatelessWidget {
                 borderSide: BorderSide.none, // 테두리 선을 없앰
               ),
               contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               // 내부 패딩 설정
               prefixIcon: Icon(Icons.search, color: Colors.grey), // 검색 아이콘 설정
             ),
@@ -149,12 +147,11 @@ Future<List<ReserveUser>> getChatsForProfessor(String userId) async {
     print("!@#");
     var chatData = chatDoc.data() as Map<String, dynamic>; // Object를 Map으로 캐스팅
     var professorUserId =
-        chatData['professorId']; // 채팅 문서에서 professor의 userId 추출
-    print(professorUserId);
+    chatData['professorId'];
     var professorDoc = await FirebaseFirestore.instance
         .collection('professor')
         .doc(professorUserId)
-        .get(); // 해당 userId를 가진 professor의 정보 조회
+        .get();
     Map<String, dynamic> data = professorDoc.data() as Map<String, dynamic>;
 
     if (professorDoc.exists) {
