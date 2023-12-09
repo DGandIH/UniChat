@@ -4,15 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unichat/page/chat/chat.dart';
 
 class Messages extends StatelessWidget {
-  final String professorId;
-  final String studentId;
+  final String curId;
+  final String targetId;
   final String time;
   final String date;
-  const Messages({Key? key, required this.professorId, required this.studentId, required this.time, required this.date}) : super(key: key);
+  final String professorId;
+  final String studentId;
+  const Messages({Key? key, required this.curId, required this.targetId, required this.time, required this.date, required this.professorId, required this.studentId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
+
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('chat')
@@ -21,7 +24,6 @@ class Messages extends StatelessWidget {
             .where('date', isEqualTo: date)
             .where('time', isEqualTo: time)
             .limit(1)
-
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -51,7 +53,7 @@ class Messages extends StatelessWidget {
               var message = messages[index];
               return Chat(
                 message['text'] ?? '',
-                message['uid'] == studentId,
+                message['uid'] == curId,
               );
             }
           );

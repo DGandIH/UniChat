@@ -107,7 +107,7 @@ Widget _buildProfessorRow(BuildContext context, ReserveUser reserveUser) {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      ChatScreen(professorId: reserveUser.professorId, studentId: reserveUser.studentId, time: reserveUser.time, date: reserveUser.date),
+                      ChatScreen(curId: reserveUser.professorId, targetId: reserveUser.studentId, time: reserveUser.time, date: reserveUser.date, professorId: reserveUser.professorId, studentId: reserveUser.studentId),
                 )
             );
           },

@@ -119,7 +119,7 @@ Widget _buildStudentRow(BuildContext context, ReserveUser professor) {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      ChatScreen(professorId: professor.professorId, studentId: professor.studentId, time: professor.time, date: professor.date),
+                      ChatScreen(curId: professor.studentId, targetId: professor.professorId, time: professor.time, date: professor.date, professorId: professor.professorId, studentId: professor.studentId),
                 )
             );
             // 여기서 chat으로 넘어가야 해용
